@@ -1,0 +1,143 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns="sap.m"
+    xmlns:forms="sap.ui.layout.form">
+    <l:Grid visible="{= !${State>/State/isEditProduct}}" width="100%" containerQuery="true" defaultSpan="XL6 L6 M12 S12">
+        <!-- Column 1 -->
+        <forms:SimpleForm adjustLabelSpan="true" layout="GridLayout" columnsXL="1" columnsL="1" columnsM="1">
+            <!-- Price -->
+            <Label text="{i18n>price}">
+                <layoutData>
+                    <forms:ColumnElementData cellsSmall="6"/>
+                </layoutData>
+            </Label>
+            <ObjectNumber number="{
+                    parts: [{path:'ProductList>Price'}],
+                    formatOptions: {showMeasure: false}}" unit="{path:'ProductList>Unit'}" state="{=	${ProductList>Quantity} > 0 ? 'Success' : 'Error' }">
+            </ObjectNumber>
+            <!-- Quantity -->
+            <Label text="{i18n>quantity}">
+                <layoutData>
+                    <forms:ColumnElementData cellsSmall="6" />
+                </layoutData>
+            </Label>
+            <ObjectNumber number="{
+                    parts:[{path:'ProductList>Quantity'}],
+                    formatOptions: {showMeasure: false}}" state="{=	${ProductList>Quantity} > 0 ? 'Success' : 'Error' }"/>
+        </forms:SimpleForm>
+
+        <!-- Column 2 -->
+        <forms:SimpleForm adjustLabelSpan="true" layout="GridLayout" columnsXL="1" columnsL="1" columnsM="1" labelSpanL="1">
+            <!-- Manufacture -->
+            <Label text="{i18n>manufacture}">
+                <layoutData>
+                    <forms:ColumnElementData cellsSmall="6" />
+                </layoutData>
+            </Label>
+            <Text text="{ProductList>Manufacture}" />
+            <!-- CreationDate -->
+            <Label text="{i18n>productTitleDate}">
+                <layoutData>
+                    <forms:ColumnElementData cellsSmall="6" />
+                </layoutData>
+            </Label>
+            <Text text="{
+                        path: 'ProductList>CreationDate',
+                        type: 'sap.ui.model.type.Date',
+                        formatOptions: {
+                            source: {
+                                pattern: 'yyyy-MM-ddTHH:mm:ss'
+                            }
+                        }
+                    }"/>
+        </forms:SimpleForm>
+    </l:Grid >
+
+    <!-- Edit mode -->
+    <l:Grid visible="{State>/State/isEditProduct}" width="100%" containerQuery="true" defaultSpan="XL6 L6 M12 S12">
+        <!-- Column 1 -->
+        <forms:SimpleForm adjustLabelSpan="true" layout="GridLayout" columnsXL="1" columnsL="1" columnsM="1">
+            <!-- Price -->
+            <Label text="{i18n>price}">
+                <layoutData>
+                    <forms:ColumnElementData cellsSmall="6"/>
+                </layoutData>
+            </Label>
+            <Input id="ProductPrice" value="{
+                    path: 'ProductList>Price',
+                    type: 'sap.ui.model.type.Float',
+                    formatOptions: {
+                        decimals: 0
+                    },
+                    constraints: {
+                        minimum: 1,
+                        maximum: 100000000
+                    }
+                }">
+            </Input>
+            <!-- Unit -->
+            <Select
+                id="ProductUnit"
+                forceSelection="false"
+                selectedKey="{ProductList>Unit}"
+                items="{
+                    path:'ProductList>/Unit',
+                    templateShareable:false
+                }">
+                <core:Item key="{ProductList>unit}" text="{ProductList>unit}" />
+            </Select>
+            <!-- Quantity -->
+            <Label text="{i18n>quantity}">
+                <layoutData>
+                    <forms:ColumnElementData cellsSmall="6" />
+                </layoutData>
+            </Label>
+            <Input id="ProductQuantity" value="{
+                    path: 'ProductList>Quantity',
+                    type: 'sap.ui.model.type.Float',
+                    formatOptions: {
+                        decimals: 0
+                    },
+                    constraints: {
+                        minimum: 1,
+                        maximum: 100000000
+                    }
+                }"/>
+
+        </forms:SimpleForm>
+
+        <!-- Column 2 -->
+        <forms:SimpleForm adjustLabelSpan="true" layout="GridLayout" columnsXL="1" columnsL="1" columnsM="1" labelSpanL="1">
+            <!-- Manufacture -->
+            <Label text="{i18n>manufacture}">
+                <layoutData>
+                    <forms:ColumnElementData cellsSmall="6" />
+                </layoutData>
+            </Label>
+            <ComboBox id="ProductManufacture" valueState="None" valueStateText="{i18n>invalidManufact}" showValueStateMessage="false" items="{ProductList>/Manufacture}" selectedKey="{
+                    path: 'ProductList>Manufacture'
+                }"
+                change="onEnterValue"
+                selectionChange="onManufactureChange" >
+                <core:Item key="{ProductList>manufacture}" text="{ProductList>manufacture}" />
+            </ComboBox>
+            <!-- CreationDate -->
+            <Label text="{i18n>productTitleDate}">
+                <layoutData>
+                    <forms:ColumnElementData cellsSmall="6" />
+                </layoutData>
+            </Label>
+            <DatePicker id="ProductDate" value="{
+                        path: 'ProductList>CreationDate',
+                        type: 'sap.ui.model.type.Date',
+                        formatOptions: {
+                            source: {
+                                pattern: 'yyyy-MM-ddTHH:mm:ss'
+                            }
+                        }
+                    }">
+            </DatePicker>
+        </forms:SimpleForm>
+    </l:Grid>
+</core:FragmentDefinition>

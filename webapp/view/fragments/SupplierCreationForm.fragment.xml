@@ -1,0 +1,88 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        title="{i18n>supplierCreationTitle}"
+        id="supplierCreator">
+        <f:SimpleForm
+            maxContainerCols="1"
+            layout="ResponsiveGridLayout"
+            labelSpanL="12"
+            labelSpanM="12"
+            emptySpanL="0"
+            emptySpanM="0"
+            columnsL="1"
+            columnsM="1">
+            <f:content>
+                <!-- Supplier Name -->
+                <Label text="{i18n>supplierName}"/>
+                <Input
+                    value="{
+						path: 'ProductList>/supplierForm/SupplierName',
+						type: 'sap.ui.model.type.String',
+						constraints: {
+							minLength: 1,
+							maxLength: 100
+						}
+					}"
+                    required="true"
+                    placeholder="{i18n>supplierPlaceholderName}"
+                    change="checkFormValid" />
+                <!-- Suppliers Address -->
+                <Label text="{i18n>supplierAddress}"/>
+                <Input
+                    value="{
+						path: 'ProductList>/supplierForm/SuppliersAddress',
+						type: 'sap.ui.model.type.String',
+						constraints: {
+							minLength: 1,
+							maxLength: 255
+						}
+					}"
+                    required="true"
+                    placeholder="{i18n>supplierPlaceholderAddress}"
+                    change="checkFormValid"/>
+                <!-- Suppliers City -->
+                <Label text="{i18n>supplierCity}"/>
+                <Input
+                    value="{
+						path: 'ProductList>/supplierForm/SuppliersCity',
+						type: 'sap.ui.model.type.String',
+						constraints: {
+							minLength: 1,
+							maxLength: 100
+						}
+					}"
+                    placeholder="{i18n>supplierPlaceholderCity}"
+                    change="checkFormValid" />
+                <!-- Suppliers Country -->
+                <Label text="{i18n>supplierCountry}"/>
+                <Input
+                    value="{
+						path: 'ProductList>/supplierForm/SuppliersCountry',
+						type: 'sap.ui.model.type.String',
+						constraints: {
+							minLength: 1,
+							maxLength: 100
+						}
+					}"
+                    required="true"
+                    placeholder="{i18n>supplierPlaceholderCountry}"
+                    change="checkFormValid" />
+            </f:content>
+        </f:SimpleForm>
+        <!-- Buttons -->
+        <buttons>
+            <Button
+                id="SupplierFormButton"
+                type="Emphasized"
+                text="{i18n>create}"
+                enabled="false"
+                press="onCreateSupplierPress"/>
+            <Button
+                text="{i18n>cancel}"
+                press="onCancelSupplierPress"
+                />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

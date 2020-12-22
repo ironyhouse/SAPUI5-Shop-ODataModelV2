@@ -1,0 +1,99 @@
+{
+	"_version": "1.21.0",
+	"sap.app": {
+		"id": "sap.ui.Shop",
+		"type": "application",
+		"i18n": {
+			"bundleUrl": "i18n/i18n.properties",
+			"supportedLocales": [
+				""
+			],
+			"fallbackLocale": ""
+		},
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+		"deviceTypes": {
+			"desktop": true,
+			"tablet": true,
+			"phone": true
+		}
+	},
+	"sap.ui5": {
+		"rootView": {
+			"viewName": "sap.ui.Shop.view.App",
+			"type": "XML",
+			"async": true,
+			"id": "app"
+		},
+		"dependencies": {
+			"minUI5Version": "1.60",
+			"libs": {
+				"sap.m": {}
+			}
+		},
+		"models": {
+			"i18n": {
+				"type": "sap.ui.model.resource.ResourceModel",
+				"settings": {
+					"bundleName": "sap.ui.Shop.i18n.i18n",
+					"supportedLocales": [
+						""
+					],
+					"fallbackLocale": ""
+				}
+			},
+			"State": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/State.json"
+			},
+			"ProductList": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/ProductList.json"
+			},
+			"SupplierList": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/SupplierList.json"
+			}
+		},
+		"routing": {
+			"config": {
+				"routerClass": "sap.m.routing.Router",
+				"viewType": "XML",
+				"viewPath": "sap.ui.Shop.view",
+				"controlId": "app",
+				"controlAggregation": "pages",
+				"transition": "slide",
+				"async": true
+			},
+			"routes": [
+				{
+					"pattern": "",
+					"name": "ProductList",
+					"target": "App"
+				},
+				{
+					"pattern": "product/{nProductId}/{sLayoutName}",
+					"name": "ProductInfo",
+					"target": "App"
+				},
+				{
+					"pattern": "product/{nProductId}/supplier/{sSupplierName}/{sLayoutName}",
+					"name": "SupplierInfo",
+					"target": "App"
+				}
+			],
+			"targets": {
+				"App": {
+					"viewId": "1",
+					"viewName": "App"
+				}
+			}
+		}
+	}
+}
