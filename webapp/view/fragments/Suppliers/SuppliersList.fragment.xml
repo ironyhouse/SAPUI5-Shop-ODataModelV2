@@ -5,15 +5,13 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f">
  	<List
-	 	id="SupplierProductList"
-		items="{SupplierList>products}"
-		headerText="{i18n>productListTitle}">
+		items="{oData>Products}"
+		headerText="{i18n>suppliersTableTitle}">
 		<ObjectListItem
-			press="onProductPress"
 			type="Active"
-			title="{SupplierList>productName}"
-			number="{SupplierList>productPrice}"
-			numberUnit="{SupplierList>productUnit}"
+			title="{oData>Name}"
+			number="{oData>Price}"
+			numberUnit="{i18n>usd}"
 			numberState="Success" >
 		</ObjectListItem>
 	</List>

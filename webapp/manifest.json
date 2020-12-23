@@ -3,6 +3,11 @@
 	"sap.app": {
 		"id": "sap.ui.Shop",
 		"type": "application",
+		"title": "{{appTitle}}",
+		"description": "{{appDescription}}",
+		"applicationVersion": {
+			"version": "1.0.0"
+		},
 		"i18n": {
 			"bundleUrl": "i18n/i18n.properties",
 			"supportedLocales": [
@@ -10,10 +15,14 @@
 			],
 			"fallbackLocale": ""
 		},
-		"title": "{{appTitle}}",
-		"description": "{{appDescription}}",
-		"applicationVersion": {
-			"version": "1.0.0"
+		"dataSources": {
+			"mainService": {
+				"uri": "https://services.odata.org/V2/(S(k11dfddnn5h4hub3nv0d5pl1))/OData/OData.svc/",
+				"type": "OData",
+				"settings": {
+					"odataVersion": "2.0"
+				}
+			}
 		}
 	},
 	"sap.ui": {
@@ -38,6 +47,15 @@
 			}
 		},
 		"models": {
+			"oData": {
+				"dataSource": "mainService",
+				"settings": {
+					"defaultBindingMode": "TwoWay",
+					"defaultCountMode": "Inline",
+					"useBatch": false,
+					"disableHeadRequestForToken": true
+				}
+			},
 			"i18n": {
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
@@ -51,14 +69,6 @@
 			"State": {
 				"type": "sap.ui.model.json.JSONModel",
 				"uri": "model/State.json"
-			},
-			"ProductList": {
-				"type": "sap.ui.model.json.JSONModel",
-				"uri": "model/ProductList.json"
-			},
-			"SupplierList": {
-				"type": "sap.ui.model.json.JSONModel",
-				"uri": "model/SupplierList.json"
 			}
 		},
 		"routing": {
@@ -74,24 +84,29 @@
 			"routes": [
 				{
 					"pattern": "",
+					"name": "Categories",
+					"target": "Categories"
+				},
+				{
+					"pattern": "{sCategoriesURL}/Products",
 					"name": "ProductList",
-					"target": "App"
+					"target": "ProductList"
 				},
 				{
-					"pattern": "product/{nProductId}/{sLayoutName}",
-					"name": "ProductInfo",
-					"target": "App"
-				},
-				{
-					"pattern": "product/{nProductId}/supplier/{sSupplierName}/{sLayoutName}",
-					"name": "SupplierInfo",
-					"target": "App"
+					"pattern": "{sProductURL}/Supplier",
+					"name": "Suppliers",
+					"target": "Suppliers"
 				}
 			],
 			"targets": {
-				"App": {
-					"viewId": "1",
-					"viewName": "App"
+				"Categories": {
+					"viewName": "Categories"
+				},
+				"ProductList": {
+					"viewName": "ProductList"
+				},
+				"Suppliers": {
+					"viewName": "Suppliers"
 				}
 			}
 		}

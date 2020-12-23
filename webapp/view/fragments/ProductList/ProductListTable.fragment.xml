@@ -1,0 +1,47 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Table id="SuppliersTable" items="{oData>/Products}">
+        <headerToolbar>
+            <OverflowToolbar design="Solid">
+                <!-- Title -->
+                <Title class="sapUiSmallMarginBegin" text="{i18n>productListTitle}" />
+                <!-- Spacer -->
+                <ToolbarSpacer />
+            </OverflowToolbar>
+        </headerToolbar>
+        <columns>
+            <Column>
+                <HBox alignItems="Center" justifyContent="Center">
+                    <Label text="{i18n>name}" design="Bold" />
+                </HBox>
+            </Column>
+            <Column>
+                <HBox alignItems="Center" justifyContent="Center">
+                    <Label text="{i18n>price}" design="Bold" />
+                </HBox>
+            </Column>
+            <Column>
+                <HBox alignItems="Center" justifyContent="Center">
+                    <Label text="{i18n>rating}" design="Bold" />
+                </HBox>
+            </Column>
+        </columns>
+        <items>
+            <ColumnListItem type="Navigation" press=".onNavToSuppliers">
+                <HBox alignItems="Center" justifyContent="Start">
+                    <Text text="{oData>Name}" />
+                </HBox>
+                <HBox alignItems="Center" justifyContent="Start">
+                    <ObjectNumber
+                        number="{oData>Price}"
+                        unit="{i18n>usd}"
+                        state="Success" />
+                </HBox>
+                <HBox alignItems="Center" justifyContent="Start">
+                    <RatingIndicator maxValue="5" value="{oData>Rating}" editable="false"/>
+                </HBox>
+            </ColumnListItem>
+        </items>
+    </Table>
+</core:FragmentDefinition>

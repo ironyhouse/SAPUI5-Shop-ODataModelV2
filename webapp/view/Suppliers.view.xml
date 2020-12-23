@@ -1,0 +1,39 @@
+<mvc:View controllerName="sap.ui.Shop.controller.Suppliers"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns="sap.uxap"
+	xmlns:f="sap.f"
+	xmlns:m="sap.m">
+	<ObjectPageLayout id="SupplierProductInfo" showTitleInHeaderContent="true" showEditHeaderButton="true" upperCaseAnchorBar="false" editHeaderButtonPress="handleEditBtnPress">
+		<headerTitle>
+			<ObjectPageDynamicHeaderTitle>
+				<!-- Title -->
+				<heading>
+					<m:FlexBox fitContainer="true" alignItems="Center">
+						<!-- Name -->
+						<m:Title text="{oData>Name}" wrapping="true" />
+					</m:FlexBox>
+				</heading>
+			</ObjectPageDynamicHeaderTitle>
+		</headerTitle>
+		<headerContent>
+			<m:Title text="{oData>Description}" wrapping="true" />
+		</headerContent>
+
+		<!-- Content -->
+		<sections>
+			<ObjectPageSection titleUppercase="false" title="{i18n>suppliersList}">
+				<subSections>
+					<ObjectPageSubSection>
+						<blocks>
+							<core:Fragment fragmentName="sap.ui.Shop.view.fragments.Suppliers.SuppliersList" type="XML"/>
+						</blocks>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+
+		<footer>
+		</footer>
+	</ObjectPageLayout>
+</mvc:View>

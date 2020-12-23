@@ -1,0 +1,77 @@
+<mvc:View controllerName="sap.ui.Shop.controller.Categories" height="100%"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	xmlns:layout="sap.ui.layout"
+	xmlns="sap.m"
+	xmlns:f="sap.f"
+	xmlns:fb="sap.ui.comp.filterbar"
+	xmlns:vm="sap.ui.comp.variants">
+	<f:DynamicPage>
+		<!-- Title -->
+		<f:title>
+			<f:DynamicPageTitle>
+				<f:heading>
+					<Title class="sapUiSmallMarginBegin" text="{i18n>homePageTitle}" />
+				</f:heading>
+			</f:DynamicPageTitle>
+		</f:title>
+		<!-- Header -->
+		<f:header>
+			<f:DynamicPageHeader pinnable="true">
+				<f:content>
+					<fb:FilterBar
+						id="filterbar"
+						search="onSelectFilter"
+						clear="onFiltersClear"
+						showClearOnFB="true"
+						showFilterConfiguration="true"
+						useToolbar="false"
+						showGoOnFB="true"
+						>
+						<fb:filterGroupItems >
+							<!-- Name -->
+							<fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Name" label="{i18n>name}">
+								<fb:control>
+									<Input id="FilterName" placeholder="{i18n>categorySearchPlaceholder}" value="" submit="onSelectFilter" />
+								</fb:control>
+							</fb:FilterGroupItem>
+						</fb:filterGroupItems>
+					</fb:FilterBar>
+				</f:content>
+			</f:DynamicPageHeader>
+		</f:header>
+		<!-- Content -->
+		<f:content>
+			<Table id="CategoriesTable" class="sapUiResponsiveMargin" items="{oData>/Categories}" selectionChange="onSelectProductPress" width="auto">
+				<!-- Product List Bar -->
+				<headerToolbar>
+					<OverflowToolbar design="Solid">
+						<!-- Title -->
+						<Title class="sapUiSmallMarginBegin" text="{i18n>categories}" />
+						<!-- Spacer -->
+						<ToolbarSpacer />
+					</OverflowToolbar>
+				</headerToolbar>
+				<columns>
+					<Column>
+						<HBox alignItems="Center" justifyContent="Center">
+							<Label text="{i18n>name}" design="Bold" />
+						</HBox>
+					</Column>
+				</columns>
+				<items>
+					<ColumnListItem
+						type="Navigation"
+						press=".onNavToCategory">
+						<VBox>
+							<ObjectIdentifier title="{oData>Name}"/>
+						</VBox>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</f:content>
+	</f:DynamicPage>
+</mvc:View>
+
+
+

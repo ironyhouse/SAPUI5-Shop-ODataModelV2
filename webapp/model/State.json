@@ -1,9 +1,5 @@
 {
     "State" : {
-        "sPageLayout": "OneColumn",
-        "isFullScreenMiddleColumn": false,
-        "isFullScreenEndColumn": false,
-        "isShowEndColumnButtons": true,
         "isShowDeleteProductButton": false,
         "isShowDeleteSupplierButton": false,
         "isEditProduct": false
