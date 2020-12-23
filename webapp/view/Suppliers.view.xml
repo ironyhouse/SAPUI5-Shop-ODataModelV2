@@ -11,14 +11,11 @@
 				<heading>
 					<m:FlexBox fitContainer="true" alignItems="Center">
 						<!-- Name -->
-						<m:Title text="{oData>Name}" wrapping="true" />
+						<m:Title text="{oData>Name}" />
 					</m:FlexBox>
 				</heading>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
-		<headerContent>
-			<m:Title text="{oData>Description}" wrapping="true" />
-		</headerContent>
 
 		<!-- Content -->
 		<sections>

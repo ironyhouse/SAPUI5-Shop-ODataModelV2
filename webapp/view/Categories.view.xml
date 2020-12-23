@@ -19,7 +19,7 @@
 		<f:header>
 			<f:DynamicPageHeader pinnable="true">
 				<f:content>
-					<fb:FilterBar
+					<!-- <fb:FilterBar
 						id="filterbar"
 						search="onSelectFilter"
 						clear="onFiltersClear"
@@ -28,15 +28,43 @@
 						useToolbar="false"
 						showGoOnFB="true"
 						>
-						<fb:filterGroupItems >
+						<fb:filterGroupItems > -->
 							<!-- Name -->
-							<fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Name" label="{i18n>name}">
+							<!-- <fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Name" label="{i18n>name}">
 								<fb:control>
 									<Input id="FilterName" placeholder="{i18n>categorySearchPlaceholder}" value="" submit="onSelectFilter" />
 								</fb:control>
 							</fb:FilterGroupItem>
 						</fb:filterGroupItems>
-					</fb:FilterBar>
+					</fb:FilterBar> -->
+
+					<MultiInput
+						id="CategoriesMultiInput"
+						width="40%"
+						valueHelpRequest=".onValueHelpOpenPress"
+						suggestionRows="{
+							path: '{oData>/Categories}'
+						}"
+						showValueHelp="true">
+
+						<suggestionColumns>
+							<Column>
+								<Label text="Category"/>
+							</Column>
+						</suggestionColumns>
+						<suggestionRows>
+							<ColumnListItem>
+								<cells>
+									<Label text="{oData>Name}" />
+								</cells>
+							</ColumnListItem>
+						</suggestionRows>
+
+						<!-- <core:Item key="{Name}" text="{Name}" /> -->
+
+
+					</MultiInput>
+
 				</f:content>
 			</f:DynamicPageHeader>
 		</f:header>

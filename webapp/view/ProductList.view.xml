@@ -5,17 +5,58 @@
 	xmlns:layout="sap.ui.layout"
 	xmlns:f="sap.f"
 	xmlns:m="sap.m">
-	<ObjectPageLayout showTitleInHeaderContent="true" showEditHeaderButton="true" upperCaseAnchorBar="false" editHeaderButtonPress="handleEditBtnPress">
+	<ObjectPageLayout
+		showTitleInHeaderContent="true"
+		showEditHeaderButton="true"
+		upperCaseAnchorBar="false"
+		editHeaderButtonPress="handleEditBtnPress"
+		showFooter="{State>/State/isEditProduct}">
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle>
 				<!-- Title -->
 				<heading>
-					<m:Title text="{oData>Name}" wrapping="true" />
+					<m:Title text="{oData>Name}" />
 				</heading>
+
+				<actions>
+					<m:Button
+						text="{i18n>edit}"
+						type="Emphasized"
+						press="onEditProduct"
+					/>
+				</actions>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
 
 		<!-- Content -->
+		<sections>
+			<ObjectPageSection titleUppercase="false" showTitle="false" title="{i18n>categoryName}">
+				<subSections>
+					<ObjectPageSubSection visible="{State>/State/isEditProduct}">
+						<m:VBox>
+							<!-- Edit name -->
+							<m:Label
+								text="{i18n>categoryName}:"
+								required="true"
+								class="sapUiTinyMarginTopBottom" />
+							<m:Input
+								width="40%"
+								value= "{
+									path: 'oData>Name',
+									type: 'sap.ui.model.type.String',
+									constraints: {
+										minLength: 5,
+										maxLength: 255
+									}
+								}"
+								placeholder="{i18n>categorySearchPlaceholder}"
+								change="checkFormValid" />
+						</m:VBox>
+					</ObjectPageSubSection>
+				</subSections>
+			</ObjectPageSection>
+		</sections>
+
 		<sections>
 			<ObjectPageSection titleUppercase="false" showTitle="false" title="{i18n>productListTitle}">
 				<subSections>
@@ -28,6 +69,17 @@
 				</subSections>
 			</ObjectPageSection>
 		</sections>
+
+		<footer>
+			<m:OverflowToolbar>
+				<m:content>
+					<m:Button icon="sap-icon://sys-cancel" text="{= ${message>/}.length }" visible="{= ${message>/}.length > 0 }" type="Reject" press="onMessagePopoverPress" />
+					<m:ToolbarSpacer />
+					<m:Button text="{i18n>save}" type="Emphasized" press="onSaveChangesPress" />
+					<m:Button text="{i18n>cancel}" press="onCancelChangesPress" />
+				</m:content>
+			</m:OverflowToolbar>
+		</footer>
 
 	</ObjectPageLayout>
 </mvc:View>
