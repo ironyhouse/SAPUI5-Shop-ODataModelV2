@@ -1,0 +1,8 @@
+{
+	"cols": [
+		{
+			"label": "Category Name",
+			"template": "oData>Name"
+		}
+	]
+}

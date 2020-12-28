@@ -6,6 +6,7 @@
 	xmlns:f="sap.f"
 	xmlns:m="sap.m">
 	<ObjectPageLayout
+		id="ProductListPage"
 		showTitleInHeaderContent="true"
 		showEditHeaderButton="true"
 		upperCaseAnchorBar="false"
@@ -22,6 +23,7 @@
 					<m:Button
 						text="{i18n>edit}"
 						type="Emphasized"
+						enabled="{= !${State>/State/isEditProduct}}"
 						press="onEditProduct"
 					/>
 				</actions>
@@ -30,22 +32,24 @@
 
 		<!-- Content -->
 		<sections>
-			<ObjectPageSection titleUppercase="false" showTitle="false" title="{i18n>categoryName}">
+			<ObjectPageSection titleUppercase="false" showTitle="false" title="{i18n>categoryName}" id="CategoryNameSection">
 				<subSections>
-					<ObjectPageSubSection visible="{State>/State/isEditProduct}">
+					<ObjectPageSubSection>
 						<m:VBox>
 							<!-- Edit name -->
 							<m:Label
 								text="{i18n>categoryName}:"
 								required="true"
 								class="sapUiTinyMarginTopBottom" />
+							<m:Title text="{oData>Name}" visible="{= !${State>/State/isEditProduct}}" />
 							<m:Input
 								width="40%"
+								visible="{State>/State/isEditProduct}"
 								value= "{
 									path: 'oData>Name',
 									type: 'sap.ui.model.type.String',
 									constraints: {
-										minLength: 5,
+										minLength: 1,
 										maxLength: 255
 									}
 								}"

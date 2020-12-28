@@ -6,7 +6,7 @@
 	xmlns:f="sap.f"
 	xmlns:fb="sap.ui.comp.filterbar"
 	xmlns:vm="sap.ui.comp.variants">
-	<f:DynamicPage>
+	<f:DynamicPage class="sapUiNoContentPadding">
 		<!-- Title -->
 		<f:title>
 			<f:DynamicPageTitle>
@@ -42,6 +42,7 @@
 						id="CategoriesMultiInput"
 						width="40%"
 						valueHelpRequest=".onValueHelpOpenPress"
+						tokenUpdate=".onAddToken"
 						suggestionRows="{
 							path: '{oData>/Categories}'
 						}"
@@ -70,19 +71,20 @@
 		</f:header>
 		<!-- Content -->
 		<f:content>
-			<Table id="CategoriesTable" class="sapUiResponsiveMargin" items="{oData>/Categories}" selectionChange="onSelectProductPress" width="auto">
+			<Table id="CategoriesTable"  class="sapUiSmallMarginTop" items="{oData>/Categories}" mode="SingleSelectLeft" selectionChange="onSelectProductPress" width="auto">
 				<!-- Product List Bar -->
 				<headerToolbar>
 					<OverflowToolbar design="Solid">
 						<!-- Title -->
-						<Title class="sapUiSmallMarginBegin" text="{i18n>categories}" />
+						<Title class="sapUiMediumMarginBegin" text="{i18n>categories}" />
 						<!-- Spacer -->
 						<ToolbarSpacer />
+						
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>
 					<Column>
-						<HBox alignItems="Center" justifyContent="Center">
+						<HBox class="sapUiSmallMarginBegin" alignItems="Center" justifyContent="Center">
 							<Label text="{i18n>name}" design="Bold" />
 						</HBox>
 					</Column>
@@ -91,8 +93,8 @@
 					<ColumnListItem
 						type="Navigation"
 						press=".onNavToCategory">
-						<VBox>
-							<ObjectIdentifier title="{oData>Name}"/>
+						<VBox class="sapUiSmallMarginBegin">
+							<Text text="{oData>Name}"/>
 						</VBox>
 					</ColumnListItem>
 				</items>

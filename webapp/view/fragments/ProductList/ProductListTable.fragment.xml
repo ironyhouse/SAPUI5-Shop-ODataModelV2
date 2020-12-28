@@ -1,13 +1,15 @@
 <core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
     xmlns="sap.m">
-    <Table id="SuppliersTable" items="{oData>/Products}">
+    <Table id="ProductListTable" items="{oData>Products}">
         <headerToolbar>
             <OverflowToolbar design="Solid">
                 <!-- Title -->
                 <Title class="sapUiSmallMarginBegin" text="{i18n>productListTitle}" />
                 <!-- Spacer -->
                 <ToolbarSpacer />
+                    <Button text="{i18n>add}" type="Transparent" press="onAddProductPress" visible="{State>/State/isEditProduct}" />
+                    <Button icon="sap-icon://sort" type="Transparent" press="onAddProductPress" visible="{= !${State>/State/isEditProduct}}" />
             </OverflowToolbar>
         </headerToolbar>
         <columns>

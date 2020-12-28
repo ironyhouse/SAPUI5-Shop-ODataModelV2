@@ -2,6 +2,7 @@
     "State" : {
         "isShowDeleteProductButton": false,
         "isShowDeleteSupplierButton": false,
-        "isEditProduct": false
+        "isEditProduct": true,
+        "isButtonAddProductForm": false
     }
 }

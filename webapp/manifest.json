@@ -17,7 +17,7 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "https://services.odata.org/V2/(S(k11dfddnn5h4hub3nv0d5pl1))/OData/OData.svc/",
+				"uri": "https://services.odata.org/(S(lalwiziihdw1qynbqursgmsl))/V2/OData/OData.svc/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0"
@@ -69,6 +69,10 @@
 			"State": {
 				"type": "sap.ui.model.json.JSONModel",
 				"uri": "model/State.json"
+			},
+			"ValueHelpLayout": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "model/ValueHelpLayout.json"
 			}
 		},
 		"routing": {

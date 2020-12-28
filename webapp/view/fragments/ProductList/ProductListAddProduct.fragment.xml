@@ -1,0 +1,76 @@
+<core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar">
+    <Dialog id="AllProductsDialog" title="{i18n>productCreationTitle}">
+        <!-- Filters -->
+        <fb:FilterBar id="filterbar" search="onFilterProducts" clear="onFiltersClear" showClearOnFB="true" showFilterConfiguration="true" useToolbar="false" showGoOnFB="true">
+            <fb:filterGroupItems >
+                <!-- Name -->
+                <fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Name" label="{i18n>name}">
+                    <fb:control>
+                        <Input id="FilterName" placeholder="{i18n>productSearchPlaceholder}" value="" submit="onFilterProducts" />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <!-- Price -->
+                <fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Price" label="{i18n>price}">
+                    <fb:control>
+                        <Input id="FilterPrice" type="Number" placeholder="{i18n>producSearchPrice}" value="" submit="onFilterProducts" />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <!-- Rating -->
+                <fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Rating" label="{i18n>rating}">
+                    <fb:control>
+                        <Select id="FilterRating" change="onFilterProducts">
+                            <core:Item key="0" text="All"/>
+                            <core:Item key="1" text="1"/>
+                            <core:Item key="2" text="2"/>
+                            <core:Item key="3" text="3"/>
+                            <core:Item key="4" text="4"/>
+                            <core:Item key="5" text="5"/>
+                        </Select>
+                    </fb:control>
+                </fb:FilterGroupItem>
+            </fb:filterGroupItems>
+        </fb:FilterBar>
+        <!-- Table -->
+        <Table id="AllProductsTable" mode="MultiSelect" selectionChange="onSelectProductsPress" items="{oData>/Products}" width="auto">
+            <columns>
+                <Column>
+                    <HBox alignItems="Center" justifyContent="Center">
+                        <Label text="{i18n>name}" design="Bold" />
+                    </HBox>
+                </Column>
+                <Column>
+                    <HBox alignItems="Center" justifyContent="Center">
+                        <Label text="{i18n>price}" design="Bold" />
+                    </HBox>
+                </Column>
+                <Column>
+                    <HBox alignItems="Center" justifyContent="Center">
+                        <Label text="{i18n>rating}" design="Bold" />
+                    </HBox>
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <VBox>
+                        <Text text="{oData>Name}"/>
+                    </VBox>
+                    <HBox alignItems="Center" justifyContent="Start">
+                        <ObjectNumber number="{oData>Price}" unit="{i18n>usd}" state="Success" />
+                    </HBox>
+                    <HBox alignItems="Center" justifyContent="Start">
+                        <RatingIndicator maxValue="5" value="{oData>Rating}" editable="false"/>
+                    </HBox>
+                </ColumnListItem>
+            </items>
+        </Table>
+
+        <buttons >
+            <Button class="sapUiSmallMarginTopBottom" text="{i18n>add}" type="Emphasized" enabled="{State>/State/isButtonAddProductForm}" press="onProductDialogAddPress" />
+            <Button class="sapUiSmallMargin" text="{i18n>cancel}" press="onProductDialogCancelPress" />
+        </buttons>
+    </Dialog>
+
+</core:FragmentDefinition>

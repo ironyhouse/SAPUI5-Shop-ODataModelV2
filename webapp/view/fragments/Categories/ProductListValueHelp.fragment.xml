@@ -13,8 +13,8 @@
 		key="Name"
 		descriptionKey="Name">
 
-		<filterBar>
-			<fb:FilterBar advancedMode="true" search=".onFilterBarSearch" isRunningInValueHelpDialog="true">
+		<!-- <filterBar>
+			<fb:FilterBar id="CategoryFilterBar" search=".onFilterBarSearch" clear="" showClearOnFB="true" showFilterConfiguration="true" useToolbar="false" showGoOnFB="true">
 				<fb:filterGroupItems>
 					<fb:FilterGroupItem
 						groupName="Category"
@@ -27,8 +27,7 @@
 					</fb:FilterGroupItem>
 				</fb:filterGroupItems>
 			</fb:FilterBar>
-		</filterBar>
-
+		</filterBar> -->
 
 	</ValueHelpDialog>
 </core:FragmentDefinition>

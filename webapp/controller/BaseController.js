@@ -3,14 +3,6 @@ sap.ui.define(
     function (Controller, UIComponent) {
         "use strict";
         return Controller.extend("sap.ui.Shop.controller.BaseController", {
-            // set page layout
-            setLayout: function (sLayoutName) {
-                return this.getModel("State").setProperty(
-                    "/State/sPageLayout",
-                    sLayoutName
-                );
-            },
-
             // get model
             getModel: function (sName) {
                 return this.getView().getModel(sName);
