@@ -4,6 +4,7 @@ sap.ui.define(
         "sap/ui/core/Fragment",
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
+        "sap/ui/model/Sorter",
         "sap/m/MessageToast",
         "sap/m/MessageBox",
     ],
@@ -12,6 +13,7 @@ sap.ui.define(
         Fragment,
         Filter,
         FilterOperator,
+        Sorter,
         MessageToast,
         MessageBox
     ) {
@@ -275,9 +277,14 @@ sap.ui.define(
             },
 
             handleConfirm: function (oEvent) {
-                console.log(this.byId("SortDialog").getSortDescending());
+                var oProductsTable = this.byId("ProductListTable"),
+                    oItemsBinding = oProductsTable.getBinding("items"),
+                    sParam = oEvent.getParameters().sortItem.getProperty("key"),
+                    bSortDesc = this.byId("SortDialog").getSortDescending(),
+                    oSorter = new Sorter(sParam, bSortDesc);
 
-                console.log(oEvent.getParameters().sortItem.getProperty("key"));
+                // perform sorting
+                oItemsBinding.sort(oSorter);
             }
         });
     }
