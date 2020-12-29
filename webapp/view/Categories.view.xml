@@ -19,59 +19,37 @@
 		<f:header>
 			<f:DynamicPageHeader pinnable="true">
 				<f:content>
-					<!-- <fb:FilterBar
+					<fb:FilterBar
 						id="filterbar"
-						search="onSelectFilter"
-						clear="onFiltersClear"
+						search="onFilterCategories"
+						clear="onFilterCategoriesClear"
 						showClearOnFB="true"
 						showFilterConfiguration="true"
 						useToolbar="false"
-						showGoOnFB="true"
-						>
-						<fb:filterGroupItems > -->
+						showGoOnFB="true">
+						<fb:filterGroupItems >
 							<!-- Name -->
-							<!-- <fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Name" label="{i18n>name}">
+							<fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Name" label="{i18n>categoryName}">
 								<fb:control>
-									<Input id="FilterName" placeholder="{i18n>categorySearchPlaceholder}" value="" submit="onSelectFilter" />
+									<MultiInput
+										id="CategoriesMultiInput"
+										placeholder="{i18n>selectCategoryPlaceholder}"
+										width="40%"
+										valueHelpOnly="true"
+										valueHelpRequest="onValueHelpOpenPress"
+										tokenUpdate="onFilterCategories"
+										showValueHelp="true">
+									</MultiInput>
 								</fb:control>
 							</fb:FilterGroupItem>
 						</fb:filterGroupItems>
-					</fb:FilterBar> -->
-
-					<MultiInput
-						id="CategoriesMultiInput"
-						width="40%"
-						valueHelpRequest=".onValueHelpOpenPress"
-						tokenUpdate=".onAddToken"
-						suggestionRows="{
-							path: '{oData>/Categories}'
-						}"
-						showValueHelp="true">
-
-						<suggestionColumns>
-							<Column>
-								<Label text="Category"/>
-							</Column>
-						</suggestionColumns>
-						<suggestionRows>
-							<ColumnListItem>
-								<cells>
-									<Label text="{oData>Name}" />
-								</cells>
-							</ColumnListItem>
-						</suggestionRows>
-
-						<!-- <core:Item key="{Name}" text="{Name}" /> -->
-
-
-					</MultiInput>
-
+					</fb:FilterBar>
 				</f:content>
 			</f:DynamicPageHeader>
 		</f:header>
 		<!-- Content -->
 		<f:content>
-			<Table id="CategoriesTable"  class="sapUiSmallMarginTop" items="{oData>/Categories}" mode="SingleSelectLeft" selectionChange="onSelectProductPress" width="auto">
+			<Table id="CategoriesTable"  class="sapUiSmallMarginTop" items="{oData>/Categories}" mode="SingleSelectLeft" selectionChange="onSelectCategoryPress" width="auto">
 				<!-- Product List Bar -->
 				<headerToolbar>
 					<OverflowToolbar design="Solid">
@@ -79,7 +57,8 @@
 						<Title class="sapUiMediumMarginBegin" text="{i18n>categories}" />
 						<!-- Spacer -->
 						<ToolbarSpacer />
-						
+						<Button text="{i18n>add}" type="Transparent" press="onAddCategoryPress" />
+						<Button text= "{i18n>delete}" type="Transparent" enabled="{State>/State/isShowDeleteCategoryButton}" press="onDeleteCategoryButtonPress" />
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>

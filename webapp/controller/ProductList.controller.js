@@ -208,9 +208,9 @@ sap.ui.define(
                     oAllProductsTable = this.byId("AllProductsTable"),
                     oProductListItems = this.byId("ProductListTable").getBinding("items"),
                     sProductsAddMessage = this.getI18nWord("productsAdd"),
-                    sProductsAddErrorMessage = this.getI18nWord(
-                        "productsAddError"
-                    ),
+                    // sProductsAddErrorMessage = this.getI18nWord(
+                    //     "productsAddError"
+                    // ),
                     sSelectedItems = oAllProductsTable.getSelectedItems(),
                     sCategoryName = this.getView()
                         .getBindingContext("oData")
@@ -246,6 +246,39 @@ sap.ui.define(
                 var bIsDelete = !!this.byId("AllProductsTable").getSelectedItems().length;
                 this.getModel("State").setProperty("/State/isButtonAddProductForm", bIsDelete);
             },
+
+            /**
+             * "Sort" button press.
+             *  This method open sort popover.
+             */
+            onSortProductPress: function () {
+                var oView = this.getView(),
+                oDialog = this.byId("SortDialog");
+
+                if (!oDialog) {
+                    // load asynchronous XML fragment
+                    Fragment.load({
+                        id: oView.getId(),
+                        name:
+                            "sap.ui.Shop.view.fragments.ProductList.ProductListSort",
+                        controller: this,
+                    }).then(function (oDialog) {
+                        // connect dialog to the root view of this component (models, lifecycle)
+                        oView.addDependent(oDialog);
+                        // show form
+                        oDialog.open();
+                    });
+                } else {
+                    // show form
+                    oDialog.open();
+                }
+            },
+
+            handleConfirm: function (oEvent) {
+                console.log(this.byId("SortDialog").getSortDescending());
+
+                console.log(oEvent.getParameters().sortItem.getProperty("key"));
+            }
         });
     }
 );

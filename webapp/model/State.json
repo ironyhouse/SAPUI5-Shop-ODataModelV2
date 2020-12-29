@@ -2,7 +2,9 @@
     "State" : {
         "isShowDeleteProductButton": false,
         "isShowDeleteSupplierButton": false,
-        "isEditProduct": true,
-        "isButtonAddProductForm": false
+        "isEditProduct": false,
+        "isButtonAddProductForm": false,
+        "isShowDeleteCategoryButton": false,
+        "isShowCreateCategoryButton": false
     }
 }

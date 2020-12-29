@@ -53,7 +53,7 @@
 										maxLength: 255
 									}
 								}"
-								placeholder="{i18n>categorySearchPlaceholder}"
+								placeholder="{i18n>enterCategoryPlaceholder}"
 								change="checkFormValid" />
 						</m:VBox>
 					</ObjectPageSubSection>

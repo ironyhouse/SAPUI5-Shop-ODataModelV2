@@ -9,7 +9,7 @@
                 <!-- Spacer -->
                 <ToolbarSpacer />
                     <Button text="{i18n>add}" type="Transparent" press="onAddProductPress" visible="{State>/State/isEditProduct}" />
-                    <Button icon="sap-icon://sort" type="Transparent" press="onAddProductPress" visible="{= !${State>/State/isEditProduct}}" />
+                    <Button icon="sap-icon://sort" type="Transparent" press="onSortProductPress" />
             </OverflowToolbar>
         </headerToolbar>
         <columns>
