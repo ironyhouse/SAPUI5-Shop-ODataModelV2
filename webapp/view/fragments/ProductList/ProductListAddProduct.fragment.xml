@@ -34,7 +34,7 @@
             </fb:filterGroupItems>
         </fb:FilterBar>
         <!-- Table -->
-        <Table id="AllProductsTable" mode="MultiSelect" selectionChange="onSelectProductsPress" items="{oData>/Products}" width="auto">
+        <Table id="AllProductsTable" mode="MultiSelect" selectionChange="onSelectProductsPress" items="{oData>/Products}" growing="true" growingThreshold="5" width="auto">
             <columns>
                 <Column>
                     <HBox alignItems="Center" justifyContent="Center">
