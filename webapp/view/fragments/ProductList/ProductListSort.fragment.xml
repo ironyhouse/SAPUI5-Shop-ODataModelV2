@@ -4,7 +4,7 @@
     xmlns:fb="sap.ui.comp.filterbar">
     <ViewSettingsDialog
         id="SortDialog"
-		confirm="handleConfirm">
+		confirm=".onSortProductList">
         <sortItems>
             <ViewSettingsItem text="{i18n>name}" key="Name" selected="true" id="Name" />
             <ViewSettingsItem text="{i18n>price}" key="Price" />

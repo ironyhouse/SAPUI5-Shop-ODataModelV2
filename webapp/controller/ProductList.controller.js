@@ -96,9 +96,34 @@ sap.ui.define(
             },
 
             /**
+             *  This method opens popover.
+             *
+             *  @param {sap.ui.base.Event} oEvent event object.
+             */
+            onCancelConfirmOpen: function (oEvent) {
+                var oButton = oEvent.getSource(),
+                    oView = this.getView();
+
+                // create popover
+                if (!this._pPopover) {
+                    this._pPopover = Fragment.load({
+                        id: oView.getId(),
+                        name: "sap.ui.Shop.view.fragments.ProductList.ProductListCancelEditPopover",
+                        controller: this
+                    }).then(function(oPopover) {
+                        oView.addDependent(oPopover);
+                        return oPopover;
+                    });
+                }
+                this._pPopover.then(function(oPopover) {
+                    oPopover.openBy(oButton);
+                });
+            },
+
+            /**
              * Cancel button press event handler.
              */
-            onCancelChangesPress: function () {
+            onDiscardChangesPress: function () {
                 var oODataModel = this.getModel("oData");
 
                 this.getModel("State").setProperty(
@@ -108,69 +133,6 @@ sap.ui.define(
 
                 // call the method to reset the request queue
                 oODataModel.resetChanges();
-            },
-
-            onFilterProducts: function () {
-                var oTable = this.byId("AllProductsTable"),
-                    oItemsBinding = oTable.getBinding("items"),
-                    sQueryName = this.getView()
-                        .byId("FilterName")
-                        .getValue()
-                        .trim(),
-                    sQueryPrice = this.getView().byId("FilterPrice").getValue(),
-                    sQueryRating = this.byId("FilterRating").getSelectedKey(),
-                    aFilter;
-
-                aFilter = new Filter({
-                    filters: [
-                        new Filter({
-                            path: "Name",
-                            operator: FilterOperator.Contains,
-                            value1: sQueryName,
-                            caseSensitive: false,
-                        }),
-                    ],
-                    and: true,
-                });
-
-                if (sQueryPrice) {
-                    aFilter.aFilters.push(
-                        new Filter("Price", FilterOperator.EQ, sQueryPrice)
-                    );
-                }
-
-                if (sQueryRating !== "0") {
-                    aFilter.aFilters.push(
-                        new Filter({
-                            path: "Rating",
-                            operator: FilterOperator.BT,
-                            value1: sQueryRating,
-                            value2: +sQueryRating + 0.99,
-                        })
-                    );
-                }
-
-                // execute filtering
-                oItemsBinding.filter(aFilter);
-            },
-
-            /**
-             * "Clear" button press event handler of the "FilterBar".
-             */
-            onFiltersClear: function () {
-                var sQueryName = this.getView().byId("FilterName"),
-                    sQueryPrice = this.getView().byId("FilterPrice"),
-                    sQueryRating = this.byId("FilterRating");
-
-                sQueryName.setValue("");
-                sQueryPrice.setValue(null);
-                sQueryRating.setSelectedItem(
-                    sQueryRating.getItems()[0],
-                    true,
-                    true
-                );
-
-                this.onFilterProducts();
             },
 
             /**
@@ -244,6 +206,9 @@ sap.ui.define(
                 oAllProductsDialog.close();
             },
 
+            /**
+             *  This method shows add button (in product popover).
+             */
             onSelectProductsPress: function () {
                 var bIsDelete = !!this.byId("AllProductsTable").getSelectedItems().length;
                 this.getModel("State").setProperty("/State/isButtonAddProductForm", bIsDelete);
@@ -253,7 +218,7 @@ sap.ui.define(
              * "Sort" button press.
              *  This method open sort popover.
              */
-            onSortProductPress: function () {
+            onOpenSortDialog: function () {
                 var oView = this.getView(),
                 oDialog = this.byId("SortDialog");
 
@@ -276,7 +241,77 @@ sap.ui.define(
                 }
             },
 
-            handleConfirm: function (oEvent) {
+            /**
+             *  This method filters products (in product popover).
+             */
+            onFilterProducts: function () {
+                var oTable = this.byId("AllProductsTable"),
+                    oItemsBinding = oTable.getBinding("items"),
+                    sQueryName = this.getView()
+                        .byId("FilterName")
+                        .getValue()
+                        .trim(),
+                    sQueryPrice = this.getView().byId("FilterPrice").getValue(),
+                    sQueryRating = this.byId("FilterRating").getSelectedKey(),
+                    aFilter;
+
+                aFilter = new Filter({
+                    filters: [
+                        new Filter({
+                            path: "Name",
+                            operator: FilterOperator.Contains,
+                            value1: sQueryName,
+                            caseSensitive: false,
+                        }),
+                    ],
+                    and: true,
+                });
+
+                if (sQueryPrice) {
+                    aFilter.aFilters.push(
+                        new Filter("Price", FilterOperator.EQ, sQueryPrice)
+                    );
+                }
+
+                if (sQueryRating !== "0") {
+                    aFilter.aFilters.push(
+                        new Filter({
+                            path: "Rating",
+                            operator: FilterOperator.BT,
+                            value1: sQueryRating,
+                            value2: +sQueryRating + 0.99,
+                        })
+                    );
+                }
+
+                // execute filtering
+                oItemsBinding.filter(aFilter);
+            },
+
+            /**
+             * "Clear" button press event handler of the "FilterBar".
+             */
+            onFiltersClear: function () {
+                var sQueryName = this.getView().byId("FilterName"),
+                    sQueryPrice = this.getView().byId("FilterPrice"),
+                    sQueryRating = this.byId("FilterRating");
+
+                sQueryName.setValue("");
+                sQueryPrice.setValue(null);
+                sQueryRating.setSelectedItem(
+                    sQueryRating.getItems()[0],
+                    true,
+                    true
+                );
+
+                this.onFilterProducts();
+            },
+
+            /**
+             * "Ok" button press.
+             *  This method sorts product list.
+             */
+            onSortProductList: function (oEvent) {
                 var oProductsTable = this.byId("ProductListTable"),
                     oItemsBinding = oProductsTable.getBinding("items"),
                     sParam = oEvent.getParameters().sortItem.getProperty("key"),
