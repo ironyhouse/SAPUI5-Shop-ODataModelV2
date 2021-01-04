@@ -1,4 +1,4 @@
-<mvc:View controllerName="sap.ui.Shop.controller.Suppliers"
+<mvc:View controllerName="sap.ui.Shop.controller.Supplier"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
 	xmlns="sap.uxap"
@@ -23,7 +23,7 @@
 				<subSections>
 					<ObjectPageSubSection>
 						<blocks>
-							<core:Fragment fragmentName="sap.ui.Shop.view.fragments.Suppliers.SuppliersList" type="XML"/>
+							<core:Fragment fragmentName="sap.ui.Shop.view.fragments.Supplier.SuppliersList" type="XML"/>
 						</blocks>
 					</ObjectPageSubSection>
 				</subSections>

@@ -30,15 +30,28 @@ sap.ui.define(
                 var oView = this.getView(),
                     oMessageManager = this.getMessageManager();
 
-                // Register the view with the message manager
-                oView.setModel(oMessageManager.getMessageModel(), "message");
-                oMessageManager.registerObject(oView, true);
+                // Route
+                this.getRouterForThis()
+                    .getRoute("Categories")
+                    .attachPatternMatched(this._onObjectMatched, this);
 
                 var oCategory = new JSONModel({
                     Name: "",
                 });
-
                 this.getView().setModel(oCategory, "Category");
+
+                // Register the view with the message manager
+                oView.setModel(oMessageManager.getMessageModel(), "message");
+                oMessageManager.registerObject(oView, true);
+            },
+
+            /**
+             *  Bind context to the view.
+             */
+            _onObjectMatched: function () {
+                var oModel = this.getModel("State");
+
+                oModel.setProperty("/State/isNavBackButton", false);
             },
 
             /**
@@ -188,9 +201,9 @@ sap.ui.define(
              */
             onCreateCategoryFormPress: function () {
                 var oModel = this.getModel("oData"),
-                    oCategoryName = this.byId("CategoryName"),
+                    oCategoryName = this.byId("CategoryNameInput"),
                     sCategoryName = oCategoryName.getValue(),
-                    nID = Math.floor(Math.random() * 100 + new Date().getDay()),
+                    oTable = this.byId("CategoriesTable"),
                     sMessageSuccess = this.getI18nWord(
                         "categoryCreateMessageSuccessful",
                         sCategoryName
@@ -198,13 +211,24 @@ sap.ui.define(
                     sMessageError = this.getI18nWord(
                         "categoryCreateMessageError",
                         sCategoryName
-                    );
+                    ),
+                    nCategoryID;
+
+                // set new category id
+                if (!!oTable.getItems().length) {
+                    var oTableItemsLength = oTable.getItems().length - 1,
+                        oTableLastItem = oTable.getItems()[oTableItemsLength].getBindingContext("oData");
+
+                    nCategoryID = oTableLastItem.getProperty("ID") + 1;
+                } else {
+                    nCategoryID = 0;
+                }
 
                 oModel.create(
                     "/Categories",
                     {
                         Name: sCategoryName,
-                        ID: nID,
+                        ID: nCategoryID,
                     },
                     {
                         success: function () {
@@ -226,7 +250,7 @@ sap.ui.define(
              */
             onCancelCategoryFormPress: function () {
                 this.byId("categoryCreator").close();
-                this.byId("CategoryName").setValue("");
+                this.byId("CategoryNameInput").setValue("");
                 this.getMessageManager().removeAllMessages();
             },
 
@@ -235,7 +259,7 @@ sap.ui.define(
              */
             checkFormValid: function () {
                 var oModel = this.getModel("State"),
-                    sCategoryName = !!this.byId("CategoryName").getValue(),
+                    sCategoryName = !!this.byId("CategoryNameInput").getValue(),
                     nValidationError = !!this.getMessageManager()
                         .getMessageModel()
                         .getData().length;
@@ -303,6 +327,9 @@ sap.ui.define(
                         MessageBox.error(sMessageError);
                     },
                 });
+
+                this.byId("CategoriesTable").removeSelections();
+                this.onSelectCategoryPress();
             },
 
             /**

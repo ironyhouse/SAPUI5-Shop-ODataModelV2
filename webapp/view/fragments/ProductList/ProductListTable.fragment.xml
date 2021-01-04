@@ -8,8 +8,8 @@
                 <Title class="sapUiSmallMarginBegin" text="{i18n>productListTitle}" />
                 <!-- Spacer -->
                 <ToolbarSpacer />
-                    <Button text="{i18n>add}" type="Transparent" press="onAddProductPress" visible="{State>/State/isEditProduct}" />
-                    <Button icon="sap-icon://sort" type="Transparent" press="onOpenSortDialog" />
+                    <Button text="{i18n>add}" type="Transparent" id="AddProductsButton" press="onAddProductPress" visible="{State>/State/isEditProduct}" />
+                    <Button id="SortProductList" icon="sap-icon://sort" type="Transparent" press="onOpenSortDialog" />
             </OverflowToolbar>
         </headerToolbar>
         <columns>
@@ -38,7 +38,10 @@
                     <ObjectNumber
                         number="{oData>Price}"
                         unit="{i18n>usd}"
-                        state="{= ${oData>Price} > 100 ? 'Warning' : 'Success'}"/>
+                        state="{
+                            path: 'oData>Price',
+							formatter: '.formatter.priceState'
+                        }"/>
                 </HBox>
                 <HBox alignItems="Center" justifyContent="Start">
                     <RatingIndicator maxValue="5" value="{oData>Rating}" editable="false"/>

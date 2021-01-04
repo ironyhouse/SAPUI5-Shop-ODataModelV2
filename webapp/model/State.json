@@ -1,10 +1,10 @@
 {
     "State" : {
-        "isShowDeleteProductButton": false,
-        "isShowDeleteSupplierButton": false,
+        "isNavBackButton": true,
+        "isShowCreateCategoryButton": false,
+        "isShowDeleteCategoryButton": false,
         "isEditProduct": false,
         "isButtonAddProductForm": false,
-        "isShowDeleteCategoryButton": false,
-        "isShowCreateCategoryButton": false
+        "isShowDeleteProductButton": false
     }
 }

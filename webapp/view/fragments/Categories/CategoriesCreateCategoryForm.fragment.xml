@@ -17,7 +17,7 @@
                 <!-- Name -->
                 <Label text="{i18n>categoryName}"/>
                 <Input
-                    id="CategoryName"
+                    id="CategoryNameInput"
                     value= "{
 						path: 'Category>/Name',
 						type: 'sap.ui.model.type.String',
@@ -34,6 +34,7 @@
         <!-- Buttons -->
         <buttons>
             <Button
+                id="CreateCategoryButton"
                 type="Emphasized"
                 text="{i18n>create}"
                 enabled="{State>/State/isShowCreateCategoryButton}"

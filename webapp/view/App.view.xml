@@ -1,6 +1,19 @@
-<mvc:View
+<mvc:View controllerName="sap.ui.Shop.controller.App"
+ 	xmlns:f="sap.f"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	displayBlock="true">
-	<App class="myAppDemoWT" id="app" />
+	<Page>
+		<customHeader>
+			<f:ShellBar
+				id="ShellBar"
+				title="{i18n>appTitle}"
+				homeIcon="./assets/img/logo_ui5.png"
+				homeIconPressed="onNavHome"
+				showNavButton="{State>/State/isNavBackButton}"
+				navButtonPressed="onNavBack">
+			</f:ShellBar>
+		</customHeader>
+		<App id="app" />
+	</Page>
 </mvc:View>

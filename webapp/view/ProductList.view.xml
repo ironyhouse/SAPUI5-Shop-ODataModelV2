@@ -21,6 +21,7 @@
 
 				<actions>
 					<m:Button
+						id="EditProductButton"
 						text="{i18n>edit}"
 						type="Emphasized"
 						enabled="{= !${State>/State/isEditProduct}}"
@@ -80,7 +81,7 @@
 					<m:Button icon="sap-icon://sys-cancel" text="{= ${message>/}.length }" visible="{= ${message>/}.length > 0 }" type="Reject" press="onMessagePopoverPress" />
 					<m:ToolbarSpacer />
 					<m:Button text="{i18n>save}" type="Emphasized" press="onSaveChangesPress" />
-					<m:Button text="{i18n>cancel}" press="onCancelConfirmOpen" />
+					<m:Button id="CancelEditProductButton" text="{i18n>cancel}" press="onCancelConfirmOpen" />
 				</m:content>
 			</m:OverflowToolbar>
 		</footer>

@@ -9,6 +9,7 @@
         <content>
             <VBox justifyContent="Center" class="sapUiTinyMargin">
                 <Button
+					id="DiscardEditProductButton"
                     width="100%"
                     text="{i18n>discard}"
                     press="onDiscardChangesPress" />

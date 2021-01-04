@@ -1,13 +1,13 @@
 sap.ui.define(["./BaseController"], function (BaseController) {
     "use strict";
-    return BaseController.extend("sap.ui.Shop.controller.Suppliers", {
+    return BaseController.extend("sap.ui.Shop.controller.Supplier", {
         /**
          * Controller's "init" lifecycle method.
          */
         onInit: function () {
             // Route
             this.getRouterForThis()
-                .getRoute("Suppliers")
+                .getRoute("Supplier")
                 .attachPatternMatched(this._onSuppliersMatched, this);
         },
 
@@ -17,12 +17,15 @@ sap.ui.define(["./BaseController"], function (BaseController) {
          *  @param {sap.ui.base.Event} oEvent event object.
          */
         _onSuppliersMatched: function (oEvent) {
-            var sProductURL = oEvent.getParameter("arguments").sProductURL;
+            var oModel = this.getModel("State"),
+                sProductURL = oEvent.getParameter("arguments").sProductURL;
 
             this.getView().bindElement({
                 path: "/" + sProductURL + "/Supplier",
                 model: "oData",
             });
+
+            oModel.setProperty("/State/isNavBackButton", true);
         },
     });
 });

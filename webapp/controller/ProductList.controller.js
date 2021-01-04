@@ -7,6 +7,7 @@ sap.ui.define(
         "sap/ui/model/Sorter",
         "sap/m/MessageToast",
         "sap/m/MessageBox",
+        "sap/ui/Shop/controller/utils/formatter"
     ],
     function (
         BaseController,
@@ -15,10 +16,14 @@ sap.ui.define(
         FilterOperator,
         Sorter,
         MessageToast,
-        MessageBox
+        MessageBox,
+        formatter
     ) {
         "use strict";
         return BaseController.extend("sap.ui.Shop.controller.ProductList", {
+
+            formatter: formatter,
+
             /**
              * Controller's "init" lifecycle method.
              */
@@ -42,17 +47,20 @@ sap.ui.define(
              * @param {sap.ui.base.Event} oEvent event object.
              */
             _onObjectMatched: function (oEvent) {
-                var sCategoriesURL = oEvent.getParameter("arguments")
+                var oModel = this.getModel("State"),
+                    sCategoriesURL = oEvent.getParameter("arguments")
                     .sCategoriesURL;
 
                 this.getView().bindElement({
                     path: "/" + sCategoriesURL,
                     model: "oData",
                 });
+
+                oModel.setProperty("/State/isNavBackButton", true);
             },
 
             /**
-             *  This method navigates to suppliers.
+             *  This method navigates to supplier.
              *
              *  @param {sap.ui.base.Event} oEvent event object.
              */
@@ -64,7 +72,7 @@ sap.ui.define(
                         .getPath()
                         .substr(1);
 
-                oRouter.navTo("Suppliers", {
+                oRouter.navTo("Supplier", {
                     sProductURL: sProductURL,
                 });
             },

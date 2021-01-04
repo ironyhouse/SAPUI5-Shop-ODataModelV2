@@ -1,5 +1,5 @@
 /* QUnit */
-sap.ui.define(["sap/ui/Shop/model/formatter"], function (formatter) {
+sap.ui.define(["sap/ui/Shop/controller/utils/formatter"], function (formatter) {
     "use strict";
 
     QUnit.module("Price State");
@@ -28,7 +28,7 @@ sap.ui.define(["sap/ui/Shop/model/formatter"], function (formatter) {
     );
 
     QUnit.test(
-        "Should format the products with a price upper than 100 to Warning",
+        "Should format the products with a price of 100 to Success",
         function (assert) {
             priceStateTestCase.call(this, {
                 assert: assert,

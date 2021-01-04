@@ -49,7 +49,7 @@
 		</f:header>
 		<!-- Content -->
 		<f:content>
-			<Table id="CategoriesTable"  class="sapUiSmallMarginTop" items="{oData>/Categories}" mode="SingleSelectLeft" selectionChange="onSelectCategoryPress" width="auto">
+			<Table id="CategoriesTable" class="sapUiSmallMarginTop" items="{oData>/Categories}" mode="SingleSelectLeft" selectionChange="onSelectCategoryPress" width="auto">
 				<!-- Product List Bar -->
 				<headerToolbar>
 					<OverflowToolbar design="Solid">
@@ -57,8 +57,8 @@
 						<Title class="sapUiMediumMarginBegin" text="{i18n>categories}" />
 						<!-- Spacer -->
 						<ToolbarSpacer />
-						<Button text="{i18n>add}" type="Transparent" press="onAddCategoryPress" />
-						<Button text= "{i18n>delete}" type="Transparent" enabled="{State>/State/isShowDeleteCategoryButton}" press="onDeleteCategoryButtonPress" />
+						<Button id="AddCategoryButton" text="{i18n>add}" type="Transparent" press="onAddCategoryPress" />
+						<Button id="DeleteCategoryButton" text= "{i18n>delete}" type="Transparent" enabled="{State>/State/isShowDeleteCategoryButton}" press="onDeleteCategoryButtonPress" />
 					</OverflowToolbar>
 				</headerToolbar>
 				<columns>

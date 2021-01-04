@@ -17,7 +17,7 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "https://services.odata.org/(S(szvplxirvvpgqcxd2i5kvral))/V2/OData/OData.svc/",
+				"uri": "https://services.odata.org/(S(ic4qlaudqtc34iz43aqte3af))/V2/OData/OData.svc/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0"
@@ -98,8 +98,8 @@
 				},
 				{
 					"pattern": "{sProductURL}/Supplier",
-					"name": "Suppliers",
-					"target": "Suppliers"
+					"name": "Supplier",
+					"target": "Supplier"
 				}
 			],
 			"targets": {
@@ -109,8 +109,8 @@
 				"ProductList": {
 					"viewName": "ProductList"
 				},
-				"Suppliers": {
-					"viewName": "Suppliers"
+				"Supplier": {
+					"viewName": "Supplier"
 				}
 			}
 		}

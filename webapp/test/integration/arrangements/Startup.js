@@ -1,6 +1,5 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
-
 	"sap/ui/model/odata/v2/ODataModel"
 ], function(Opa5, ODataModel) {
 	"use strict";
