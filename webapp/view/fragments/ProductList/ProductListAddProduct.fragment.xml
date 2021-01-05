@@ -13,9 +13,14 @@
                     </fb:control>
                 </fb:FilterGroupItem>
                 <!-- Price -->
-                <fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Price" label="{i18n>price}">
+                <fb:FilterGroupItem  groupTitle="{i18n>price}" groupName="G2" visibleInFilterBar="false" name="PriceFrom" label="{i18n>priceFrom}">
                     <fb:control>
-                        <Input id="FilterPrice" type="Number" placeholder="{i18n>producSearchPrice}" value="" submit="onFilterProducts" />
+                        <Input id="PriceFrom" type="Number" placeholder="{i18n>producSearchPriceFrom}" value="" submit="onFilterProducts" />
+                    </fb:control>
+                </fb:FilterGroupItem>
+                <fb:FilterGroupItem  groupTitle="{i18n>price}" groupName="G2" visibleInFilterBar="false" name="PriceTo" label="{i18n>priceTo}">
+                    <fb:control>
+                        <Input id="PriceTo" type="Number" placeholder="{i18n>producSearchPriceTo}" value="" submit="onFilterProducts" />
                     </fb:control>
                 </fb:FilterGroupItem>
                 <!-- Rating -->

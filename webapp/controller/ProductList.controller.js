@@ -7,7 +7,7 @@ sap.ui.define(
         "sap/ui/model/Sorter",
         "sap/m/MessageToast",
         "sap/m/MessageBox",
-        "sap/ui/Shop/controller/utils/formatter"
+        "sap/ui/Shop/controller/utils/formatter",
     ],
     function (
         BaseController,
@@ -21,7 +21,6 @@ sap.ui.define(
     ) {
         "use strict";
         return BaseController.extend("sap.ui.Shop.controller.ProductList", {
-
             formatter: formatter,
 
             /**
@@ -49,7 +48,7 @@ sap.ui.define(
             _onObjectMatched: function (oEvent) {
                 var oModel = this.getModel("State"),
                     sCategoriesURL = oEvent.getParameter("arguments")
-                    .sCategoriesURL;
+                        .sCategoriesURL;
 
                 this.getView().bindElement({
                     path: "/" + sCategoriesURL,
@@ -116,14 +115,15 @@ sap.ui.define(
                 if (!this._pPopover) {
                     this._pPopover = Fragment.load({
                         id: oView.getId(),
-                        name: "sap.ui.Shop.view.fragments.ProductList.ProductListCancelEditPopover",
-                        controller: this
-                    }).then(function(oPopover) {
+                        name:
+                            "sap.ui.Shop.view.fragments.ProductList.ProductListCancelEditPopover",
+                        controller: this,
+                    }).then(function (oPopover) {
                         oView.addDependent(oPopover);
                         return oPopover;
                     });
                 }
-                this._pPopover.then(function(oPopover) {
+                this._pPopover.then(function (oPopover) {
                     oPopover.openBy(oButton);
                 });
             },
@@ -178,7 +178,9 @@ sap.ui.define(
                 var oModel = this.getModel("oData"),
                     oAllProductsDialog = this.byId("AllProductsDialog"),
                     oAllProductsTable = this.byId("AllProductsTable"),
-                    oProductListItems = this.byId("ProductListTable").getBinding("items"),
+                    oProductListItems = this.byId(
+                        "ProductListTable"
+                    ).getBinding("items"),
                     sProductsAddMessage = this.getI18nWord("productsAdd"),
                     // sProductsAddErrorMessage = this.getI18nWord(
                     //     "productsAddError"
@@ -193,13 +195,10 @@ sap.ui.define(
                         var sSelectedItem =
                             item.getBindingContextPath() + "/$links/Category";
 
-                        oModel.update(
-                            sSelectedItem,
-                            { uri: sCategoryName }
-                        );
+                        oModel.update(sSelectedItem, { uri: sCategoryName });
                     });
 
-                    oProductListItems.refresh();
+                    oProductListItems.refresh(true);
                     oAllProductsDialog.destroy();
                     MessageToast.show(sProductsAddMessage);
                 }
@@ -218,8 +217,13 @@ sap.ui.define(
              *  This method shows add button (in product popover).
              */
             onSelectProductsPress: function () {
-                var bIsDelete = !!this.byId("AllProductsTable").getSelectedItems().length;
-                this.getModel("State").setProperty("/State/isButtonAddProductForm", bIsDelete);
+                var bIsDelete = !!this.byId(
+                    "AllProductsTable"
+                ).getSelectedItems().length;
+                this.getModel("State").setProperty(
+                    "/State/isButtonAddProductForm",
+                    bIsDelete
+                );
             },
 
             /**
@@ -228,7 +232,7 @@ sap.ui.define(
              */
             onOpenSortDialog: function () {
                 var oView = this.getView(),
-                oDialog = this.byId("SortDialog");
+                    oDialog = this.byId("SortDialog");
 
                 if (!oDialog) {
                     // load asynchronous XML fragment
@@ -259,7 +263,8 @@ sap.ui.define(
                         .byId("FilterName")
                         .getValue()
                         .trim(),
-                    sQueryPrice = this.getView().byId("FilterPrice").getValue(),
+                    sQueryPriceFrom = this.getView().byId("PriceFrom").getValue(),
+                    sQueryPriceTo = this.getView().byId("PriceTo").getValue(),
                     sQueryRating = this.byId("FilterRating").getSelectedKey(),
                     aFilter;
 
@@ -275,9 +280,34 @@ sap.ui.define(
                     and: true,
                 });
 
-                if (sQueryPrice) {
+                if (sQueryPriceFrom && !sQueryPriceTo) {
                     aFilter.aFilters.push(
-                        new Filter("Price", FilterOperator.EQ, sQueryPrice)
+                        new Filter(
+                            "Price",
+                            FilterOperator.GE,
+                            sQueryPriceFrom
+                        )
+                    )
+                }
+
+                if (!sQueryPriceFrom && sQueryPriceTo) {
+                    aFilter.aFilters.push(
+                        new Filter(
+                            "Price",
+                            FilterOperator.LE,
+                            sQueryPriceTo
+                        )
+                    )
+                }
+
+                if (sQueryPriceFrom && sQueryPriceTo) {
+                    aFilter.aFilters.push(
+                        new Filter({
+                            path: "Price",
+                            operator: FilterOperator.BT,
+                            value1: sQueryPriceFrom,
+                            value2: sQueryPriceTo,
+                        })
                     );
                 }
 
@@ -328,7 +358,7 @@ sap.ui.define(
 
                 // perform sorting
                 oItemsBinding.sort(oSorter);
-            }
+            },
         });
     }
 );

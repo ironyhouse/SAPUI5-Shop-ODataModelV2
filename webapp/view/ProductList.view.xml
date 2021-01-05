@@ -24,7 +24,7 @@
 						id="EditProductButton"
 						text="{i18n>edit}"
 						type="Emphasized"
-						enabled="{= !${State>/State/isEditProduct}}"
+						visible="{= !${State>/State/isEditProduct}}"
 						press="onEditProduct"
 					/>
 				</actions>
@@ -40,7 +40,7 @@
 							<!-- Edit name -->
 							<m:Label
 								text="{i18n>categoryName}:"
-								required="true"
+								required="{State>/State/isEditProduct}"
 								class="sapUiTinyMarginTopBottom" />
 							<m:Title text="{oData>Name}" visible="{= !${State>/State/isEditProduct}}" />
 							<m:Input

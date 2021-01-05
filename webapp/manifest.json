@@ -17,7 +17,7 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "https://services.odata.org/(S(ic4qlaudqtc34iz43aqte3af))/V2/OData/OData.svc/",
+				"uri": "https://services.odata.org/(S(sqostg2d3dsq3nkuqhuo5hlp))/V2/OData/OData.svc/",
 				"type": "OData",
 				"settings": {
 					"odataVersion": "2.0"

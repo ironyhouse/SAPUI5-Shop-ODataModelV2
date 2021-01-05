@@ -19,9 +19,13 @@ sap.ui.define(
                 When.onTheCategoriesPage.iPressOnAddCategoryButton();
                 // Assertions
                 Then.onTheCategoriesPage.thePageShouldHaveCategoryDialog();
+            }
+        )
 
-
-                // Should see the new Category in table
+        opaTest(
+            "Should see the new Category in table.",
+            function (Given, When, Then) {
+                // Should see the new Category in table.
                 // Actions
                 When.onTheCategoriesPage.iEnterCategoryName();
                 When.onTheCategoriesPage.iPressOnCreateCategoryButton();
