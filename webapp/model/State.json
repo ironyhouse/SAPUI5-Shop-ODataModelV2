@@ -5,6 +5,6 @@
         "isShowDeleteCategoryButton": false,
         "isEditProduct": false,
         "isButtonAddProductForm": false,
-        "isShowDeleteProductButton": false
+        "isEnabledDeleteProductButton": false
     }
 }

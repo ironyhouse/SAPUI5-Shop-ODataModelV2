@@ -3,7 +3,9 @@
 	xmlns:core="sap.ui.core"
 	xmlns="sap.uxap"
 	xmlns:f="sap.f"
-	xmlns:m="sap.m">
+	xmlns:m="sap.m"
+	xmlns:layout="sap.ui.layout"
+	xmlns:forms="sap.ui.layout.form">
 	<ObjectPageLayout id="SupplierProductInfo" showTitleInHeaderContent="true" showEditHeaderButton="true" upperCaseAnchorBar="false" editHeaderButtonPress="handleEditBtnPress">
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle>
@@ -16,10 +18,31 @@
 				</heading>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>
+		<headerContent>
+			<!-- Info -->
+			<m:HBox alignItems="Start" justifyContent="Start">
+				<m:ObjectAttribute
+					title="{i18n>address}"
+					core:require="{
+							formatMessage: 'sap/base/strings/formatMessage'
+						}"
+					text="{
+							parts: [
+								{path: 'i18n>supplierFullAddress'},
+								{path: 'oData>Address/Street'},
+								{path: 'oData>Address/City'},
+								{path: 'oData>Address/State'},
+								{path: 'oData>Address/ZipCode'},
+								{path: 'oData>Address/Country'}
+							],
+							formatter: 'formatMessage'
+						}" />
+			</m:HBox>
+		</headerContent>
 
 		<!-- Content -->
 		<sections>
-			<ObjectPageSection titleUppercase="false" title="{i18n>suppliersList}">
+			<ObjectPageSection titleUppercase="false" title="{i18n>products}">
 				<subSections>
 					<ObjectPageSubSection>
 						<blocks>
@@ -29,8 +52,5 @@
 				</subSections>
 			</ObjectPageSection>
 		</sections>
-
-		<footer>
-		</footer>
 	</ObjectPageLayout>
 </mvc:View>

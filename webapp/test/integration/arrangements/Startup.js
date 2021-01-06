@@ -1,7 +1,8 @@
 sap.ui.define([
 	"sap/ui/test/Opa5",
+	"sap/ui/Shop/localService/mockserver",
 	"sap/ui/model/odata/v2/ODataModel"
-], function(Opa5, ODataModel) {
+], function(Opa5, mockserver, ODataModel) {
 	"use strict";
 
 	return Opa5.extend("sap.ui.Shop.test.integration.arrangements.Startup", {
@@ -22,9 +23,9 @@ sap.ui.define([
 			oOptions.delay = oOptions.delay || 1;
 
 			// configure mock server with the current options
-			// var oMockserverInitialized = mockserver.init(oOptions);
+			var oMockserverInitialized = mockserver.init(oOptions);
 
-			// this.iWaitForPromise(oMockserverInitialized);
+			this.iWaitForPromise(oMockserverInitialized);
 			// start the app UI component
 			this.iStartMyUIComponent({
 				componentConfig: {

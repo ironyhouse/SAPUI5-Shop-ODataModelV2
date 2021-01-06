@@ -7,7 +7,7 @@
  	<List
 	 	id="SupplierProductList"
 		items="{oData>Products}"
-		headerText="{i18n>suppliersTableTitle}">
+		headerText="{i18n>productListTitle}">
 		<ObjectListItem
 			type="Active"
 			title="{oData>Name}"

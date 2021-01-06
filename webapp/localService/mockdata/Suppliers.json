@@ -1,0 +1,24 @@
+[
+  {
+    "Name": "Exotic Liquids",
+    "ID": 0,
+    "Address": {
+      "Street": "NE 228th",
+      "City": "Somali",
+      "State": "Alabama",
+      "ZipCode": "98074",
+      "Country": "USA"
+    }
+  },
+  {
+    "Name": "Tokyo Traders",
+    "ID": 1,
+    "Address": {
+      "Street": "Not NE 228th",
+      "City": "Redmond",
+      "State": "WA",
+      "ZipCode": "98074",
+      "Country": "USA"
+    }
+  }
+]

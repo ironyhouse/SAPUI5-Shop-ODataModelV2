@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
     xmlns="sap.m">
-    <Table id="ProductListTable" items="{oData>Products}">
+    <Table id="ProductListTable" items="{oData>Products}" mode="{= ${State>/State/isEditProduct} ? 'MultiSelect' : null }" selectionChange="onSelectProductsPress" >
         <headerToolbar>
             <OverflowToolbar design="Solid">
                 <!-- Title -->
@@ -9,6 +9,7 @@
                 <!-- Spacer -->
                 <ToolbarSpacer />
                     <Button text="{i18n>add}" type="Transparent" id="AddProductsButton" press="onAddProductPress" visible="{State>/State/isEditProduct}" />
+                    <Button text="{i18n>delete}" id="DeleteProductsButton" enabled="{State>/State/isEnabledDeleteProductButton}" type="Transparent" press="onDeleteProductPress" visible="{State>/State/isEditProduct}" />
                     <Button id="SortProductList" icon="sap-icon://sort" type="Transparent" press="onOpenSortDialog" />
             </OverflowToolbar>
         </headerToolbar>

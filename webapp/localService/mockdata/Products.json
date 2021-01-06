@@ -1,0 +1,74 @@
+[
+  {
+    "Name": "Bread",
+    "ID": 0,
+    "Rating": 5,
+    "Price": 0.5,
+    "Description": "Some description..",
+    "CategoryID": 0
+  },
+  {
+    "Name": "Milk",
+    "ID": 1,
+    "Rating": 3,
+    "Price": 9.5,
+    "Description": "Some description..",
+    "CategoryID": 1
+  },
+  {
+    "Name": "Vint Soda",
+    "ID": 2,
+    "Rating": 4,
+    "Price": 31.5,
+    "Description": "Some description..",
+    "CategoryID": 1
+  },
+  {
+    "Name": "Havina Cola",
+    "ID": 3,
+    "Rating": 3,
+    "Price": 8.5,
+    "Description": "Some description..",
+    "CategoryID": 1
+  },
+  {
+    "Name": "Fruit Punch",
+    "ID": 4,
+    "Rating": 1,
+    "Price": 6.5,
+    "Description": "Some description..",
+    "CategoryID": 1
+  },
+  {
+    "Name": "Cranberry Juice",
+    "ID": 5,
+    "Rating": 3,
+    "Price": 13.5,
+    "Description": "Some description..",
+    "CategoryID": 1
+  },
+  {
+    "Name": "Pink Lemonade",
+    "ID": 6,
+    "Rating": 5,
+    "Price": 3.5,
+    "Description": "Some description..",
+    "CategoryID": 1
+  },
+  {
+    "Name": "DVD Player",
+    "ID": 7,
+    "Rating": 4,
+    "Price": 7.5,
+    "Description": "Some description..",
+    "CategoryID": 2
+  },
+  {
+    "Name": "LCD HDTV",
+    "ID": 8,
+    "Rating": 3,
+    "Price": 3.5,
+    "Description": "Some description..",
+    "CategoryID": 2
+  }
+]

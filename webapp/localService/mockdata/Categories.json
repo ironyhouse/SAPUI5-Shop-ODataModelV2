@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "Food",
+    "CategoryID": 0
+  },
+  {
+    "Name": "Beverages",
+    "CategoryID": 1
+  },
+  {
+    "Name": "Electronics",
+    "CategoryID": 2
+  }
+]

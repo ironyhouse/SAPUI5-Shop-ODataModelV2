@@ -91,15 +91,19 @@ sap.ui.define(
              * Save button press event handler.
              */
             onSaveChangesPress: function () {
-                var oODataModel = this.getModel("oData");
+                var oODataModel = this.getModel("oData"),
+                    nValidationError = this.getMessageManager()
+                        .getMessageModel()
+                        .getData().length;
 
-                this.getModel("State").setProperty(
-                    "/State/isEditProduct",
-                    false
-                );
+                if (nValidationError === 0) {
+                    this.getModel("State").setProperty(
+                        "/State/isEditProduct",
+                        false
+                    );
 
-                // call the method to release the request queue
-                oODataModel.submitChanges();
+                    oODataModel.submitChanges();
+                }
             },
 
             /**
@@ -141,6 +145,32 @@ sap.ui.define(
 
                 // call the method to reset the request queue
                 oODataModel.resetChanges();
+            },
+
+            /**
+             * This method open error popover.
+             *
+             *  @param {sap.ui.base.Event} oEvent event object.
+             */
+            onMessagePopoverPress: function (oEvent) {
+                var oButton = oEvent.getSource(),
+                    oView = this.getView();
+
+                // create popover
+                if (!this._pPopoverError) {
+                    this._pPopoverError = Fragment.load({
+                        id: oView.getId(),
+                        name:
+                            "sap.ui.Shop.view.fragments.ProductList.MessageErrorPopover",
+                        controller: this,
+                    }).then(function (oPopover) {
+                        oView.addDependent(oPopover);
+                        return oPopover;
+                    });
+                }
+                this._pPopoverError.then(function (oPopover) {
+                    oPopover.openBy(oButton);
+                });
             },
 
             /**
@@ -216,7 +246,7 @@ sap.ui.define(
             /**
              *  This method shows add button (in product popover).
              */
-            onSelectProductsPress: function () {
+            onSelectProductsInDialogPress: function () {
                 var bIsDelete = !!this.byId(
                     "AllProductsTable"
                 ).getSelectedItems().length;
@@ -224,6 +254,141 @@ sap.ui.define(
                     "/State/isButtonAddProductForm",
                     bIsDelete
                 );
+            },
+
+            /**
+             * Row selection event handler (Product List).
+             * After selection "delete button" will be enabled.
+             */
+            onSelectProductsPress: function () {
+                var bIsDelete = !!this.byId(
+                    "ProductListTable"
+                ).getSelectedItems().length;
+                this.getModel("State").setProperty(
+                    "/State/isEnabledDeleteProductButton",
+                    bIsDelete
+                );
+            },
+
+            /**
+             * "Delete" button press.
+             *  This method opens confirmation.
+             */
+            onDeleteProductPress: function () {
+                var oSelectItem = this.byId(
+                        "ProductListTable"
+                    ).getSelectedItems(),
+                    sCategoryName,
+                    sMessage;
+
+                if (oSelectItem.length === 1) {
+                    sCategoryName = this.byId("ProductListTable")
+                        .getSelectedItem()
+                        .getBindingContext("oData")
+                        .getProperty("Name");
+
+                    sMessage = this.getI18nWord(
+                        "categoryMessageDelete",
+                        sCategoryName
+                    );
+                } else {
+                    sMessage = this.getI18nWord("productsMessageDelete");
+                }
+
+                // show confirmation
+                MessageBox.confirm(sMessage, {
+                    onClose: function (oAction) {
+                        if (oAction === "OK") {
+                            this.onDeleteProduct();
+                        }
+                    }.bind(this),
+                });
+            },
+
+            /**
+             * This method removes products in category.
+             */
+
+            onDeleteProduct: function () {
+                var oModel = this.getModel("oData"),
+                    // get Category Id
+                    oSelectItem = this.byId("ProductListTable")
+                        .getSelectedItem()
+                        .getBindingContext("oData"),
+                    sProductName = oSelectItem.getProperty("Name"),
+                    sCategoryName = this.getView()
+                        .getBindingContext("oData")
+                        .getPath(),
+                    sMessageSuccess = this.getI18nWord(
+                        "categoryDeleteMessageSuccessful",
+                        sProductName
+                    ),
+                    sMessageError = this.getI18nWord(
+                        "categoryDeleteMessageError",
+                        sProductName
+                    );
+
+                // console.log(oSelectItem);
+                // console.log(oSelectItem.getPath());
+                // console.log(oSelectItem.sDeepPath);
+                // console.log(sProductName);
+
+                console.log(
+                    this.byId("ProductListTable").removeRow("1")
+                );
+
+                // oModel.remove(oSelectItem.sDeepPath, {
+                //     success: function () {
+                //         MessageToast.show(sMessageSuccess);
+                //     },
+                //     error: function () {
+                //         MessageBox.error(sMessageError);
+                //     },
+                // });
+
+                // oModel.update(oSelectItem.getPath() + "/$links/Category" , { uri: sCategoryName });
+
+                // oModel.remove("/Categories(0)/Products(0)/" , {
+                //     success: function () {
+                //         MessageToast.show(sMessageSuccess);
+                //     },
+                //     error: function () {
+                //         MessageBox.error(sMessageError);
+                //     },
+                // });
+
+                // /Products(3)/$links/Category
+
+                // var oModel = this.getModel("oData");
+
+                // var tmpModel = new ODataModel(
+                //     "https://xxyyzz.com/sap/opu/odata/<your_service>_SRV/",
+                //     true
+                // );
+                // tmpModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
+                // tmpModel.setUseBatch(true);
+                // this.getView().setModel(oModel, "oModel");
+
+                // oModel.setDeferredGroups(["foo"]);
+                // var mParameters = {
+                //     groupId: "foo",
+                //     success: function (odata, resp) {
+                //         console.log(resp);
+                //     },
+                //     error: function (odata, resp) {
+                //         console.log(resp);
+                //     },
+                // };
+
+                // for (var m = 0; m < oPayload.length; m++) {
+                //     oModel.update(
+                //         "/YOUR_ENTITYSet(Key1='Valu1',Key2='Value2')",
+                //         oPayload[m],
+                //         mParameters
+                //     );
+                // }
+
+                // oModel.submitChanges(mParameters);
             },
 
             /**
@@ -263,7 +428,9 @@ sap.ui.define(
                         .byId("FilterName")
                         .getValue()
                         .trim(),
-                    sQueryPriceFrom = this.getView().byId("PriceFrom").getValue(),
+                    sQueryPriceFrom = this.getView()
+                        .byId("PriceFrom")
+                        .getValue(),
                     sQueryPriceTo = this.getView().byId("PriceTo").getValue(),
                     sQueryRating = this.byId("FilterRating").getSelectedKey(),
                     aFilter;
@@ -282,22 +449,14 @@ sap.ui.define(
 
                 if (sQueryPriceFrom && !sQueryPriceTo) {
                     aFilter.aFilters.push(
-                        new Filter(
-                            "Price",
-                            FilterOperator.GE,
-                            sQueryPriceFrom
-                        )
-                    )
+                        new Filter("Price", FilterOperator.GE, sQueryPriceFrom)
+                    );
                 }
 
                 if (!sQueryPriceFrom && sQueryPriceTo) {
                     aFilter.aFilters.push(
-                        new Filter(
-                            "Price",
-                            FilterOperator.LE,
-                            sQueryPriceTo
-                        )
-                    )
+                        new Filter("Price", FilterOperator.LE, sQueryPriceTo)
+                    );
                 }
 
                 if (sQueryPriceFrom && sQueryPriceTo) {

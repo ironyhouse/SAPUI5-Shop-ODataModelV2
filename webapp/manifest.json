@@ -17,10 +17,11 @@
 		},
 		"dataSources": {
 			"mainService": {
-				"uri": "https://services.odata.org/(S(sqostg2d3dsq3nkuqhuo5hlp))/V2/OData/OData.svc/",
+				"uri": "https://services.odata.org/(S(oejz5y04pvkph2u1eugvnmay))/V2/OData/OData.svc/",
 				"type": "OData",
 				"settings": {
-					"odataVersion": "2.0"
+					"odataVersion": "2.0",
+					"localUri": "localService/metadata.xml"
 				}
 			}
 		}
