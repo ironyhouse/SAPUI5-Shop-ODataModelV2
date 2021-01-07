@@ -6,7 +6,7 @@
 	xmlns:f="sap.f">
  	<List
 	 	id="SupplierProductList"
-		items="{oData>Products}"
+		items="{oData>/Products}"
 		headerText="{i18n>productListTitle}">
 		<ObjectListItem
 			type="Active"

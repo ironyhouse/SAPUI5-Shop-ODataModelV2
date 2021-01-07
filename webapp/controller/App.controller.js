@@ -8,7 +8,7 @@ sap.ui.define(
              *  This method navigates to home page.
              */
             onNavHome: function () {
-                this.getRouterForThis().navTo("Categories", true);
+                this.getRouterForThis().navTo("Categories");
             },
 
             /**

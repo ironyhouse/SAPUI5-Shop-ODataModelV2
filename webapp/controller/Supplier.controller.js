@@ -22,8 +22,17 @@ sap.ui.define(["./BaseController"], function (BaseController) {
 
             this.getView().bindElement({
                 path: "/" + sProductURL + "/Supplier",
+                parameters: {expand: "Products"},
                 model: "oData",
             });
+
+            // this.byId("SupplierProductList").bindAggregation("items", {
+            //     path: "/" + sProductURL + "/Supplier",
+            //     // template: oTemplate,
+            //     parameters: {
+            //        expand: "Products"
+            //     }
+            // });
 
             oModel.setProperty("/State/isNavBackButton", true);
         },

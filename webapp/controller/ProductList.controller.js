@@ -92,6 +92,9 @@ sap.ui.define(
              */
             onSaveChangesPress: function () {
                 var oODataModel = this.getModel("oData"),
+                    oProductListItems = this.byId(
+                        "ProductListTable"
+                    ).getBinding("items"),
                     nValidationError = this.getMessageManager()
                         .getMessageModel()
                         .getData().length;
@@ -102,7 +105,9 @@ sap.ui.define(
                         false
                     );
 
-                    oODataModel.submitChanges();
+                    oODataModel.submitChanges({
+                        success: oProductListItems.refresh(true),
+                    });
                 }
             },
 
@@ -208,27 +213,29 @@ sap.ui.define(
                 var oModel = this.getModel("oData"),
                     oAllProductsDialog = this.byId("AllProductsDialog"),
                     oAllProductsTable = this.byId("AllProductsTable"),
-                    oProductListItems = this.byId(
-                        "ProductListTable"
-                    ).getBinding("items"),
+                    aSelectedItems = oAllProductsTable.getSelectedItems(),
                     sProductsAddMessage = this.getI18nWord("productsAdd"),
                     // sProductsAddErrorMessage = this.getI18nWord(
                     //     "productsAddError"
                     // ),
-                    sSelectedItems = oAllProductsTable.getSelectedItems(),
                     sCategoryName = this.getView()
                         .getBindingContext("oData")
                         .getPath();
 
-                if (sSelectedItems !== 0) {
-                    sSelectedItems.forEach(function (item) {
+                oModel.setDeferredGroups(["foo"]);
+
+                if (aSelectedItems !== 0) {
+                    aSelectedItems.forEach(function (item) {
                         var sSelectedItem =
                             item.getBindingContextPath() + "/$links/Category";
 
-                        oModel.update(sSelectedItem, { uri: sCategoryName });
+                        oModel.update(
+                            sSelectedItem,
+                            { uri: sCategoryName },
+                            { groupId: "foo" }
+                        );
                     });
 
-                    oProductListItems.refresh(true);
                     oAllProductsDialog.destroy();
                     MessageToast.show(sProductsAddMessage);
                 }
@@ -312,83 +319,23 @@ sap.ui.define(
             onDeleteProduct: function () {
                 var oModel = this.getModel("oData"),
                     // get Category Id
-                    oSelectItem = this.byId("ProductListTable")
-                        .getSelectedItem()
-                        .getBindingContext("oData"),
-                    sProductName = oSelectItem.getProperty("Name"),
-                    sCategoryName = this.getView()
-                        .getBindingContext("oData")
-                        .getPath(),
-                    sMessageSuccess = this.getI18nWord(
-                        "categoryDeleteMessageSuccessful",
-                        sProductName
-                    ),
-                    sMessageError = this.getI18nWord(
-                        "categoryDeleteMessageError",
-                        sProductName
-                    );
+                    oProductsTable = this.byId("ProductListTable"),
+                    aSelectedItems = oProductsTable.getSelectedItems(),
+                    sProductsDeleteMessage = this.getI18nWord("productsDeleteMessage");
+                    // sProductsDeleteError = this.getI18nWord("productsDeleteError");
 
-                // console.log(oSelectItem);
-                // console.log(oSelectItem.getPath());
-                // console.log(oSelectItem.sDeepPath);
-                // console.log(sProductName);
 
-                console.log(
-                    this.byId("ProductListTable").removeRow("1")
-                );
+                if (aSelectedItems !== 0) {
+                    aSelectedItems.forEach(function (item) {
+                        oModel.remove(item.getBindingContextPath() + "/$links/Category",
+                        {
+                            groupId: "foo",
+                        }
+                        );
+                    });
 
-                // oModel.remove(oSelectItem.sDeepPath, {
-                //     success: function () {
-                //         MessageToast.show(sMessageSuccess);
-                //     },
-                //     error: function () {
-                //         MessageBox.error(sMessageError);
-                //     },
-                // });
-
-                // oModel.update(oSelectItem.getPath() + "/$links/Category" , { uri: sCategoryName });
-
-                // oModel.remove("/Categories(0)/Products(0)/" , {
-                //     success: function () {
-                //         MessageToast.show(sMessageSuccess);
-                //     },
-                //     error: function () {
-                //         MessageBox.error(sMessageError);
-                //     },
-                // });
-
-                // /Products(3)/$links/Category
-
-                // var oModel = this.getModel("oData");
-
-                // var tmpModel = new ODataModel(
-                //     "https://xxyyzz.com/sap/opu/odata/<your_service>_SRV/",
-                //     true
-                // );
-                // tmpModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
-                // tmpModel.setUseBatch(true);
-                // this.getView().setModel(oModel, "oModel");
-
-                // oModel.setDeferredGroups(["foo"]);
-                // var mParameters = {
-                //     groupId: "foo",
-                //     success: function (odata, resp) {
-                //         console.log(resp);
-                //     },
-                //     error: function (odata, resp) {
-                //         console.log(resp);
-                //     },
-                // };
-
-                // for (var m = 0; m < oPayload.length; m++) {
-                //     oModel.update(
-                //         "/YOUR_ENTITYSet(Key1='Valu1',Key2='Value2')",
-                //         oPayload[m],
-                //         mParameters
-                //     );
-                // }
-
-                // oModel.submitChanges(mParameters);
+                    MessageToast.show(sProductsDeleteMessage);
+                }
             },
 
             /**
