@@ -55,7 +55,6 @@ sap.ui.define(
                                     if(oButton.getText() == "OK") {
                                         oButton.firePress();
                                     }
-                                    Opa5.assert.ok(true, "Category successfully deleted");
                                 });
                             },
                             errorMessage: "Category not deleted"
@@ -136,7 +135,7 @@ sap.ui.define(
                             success: function () {
                                 Opa5.assert.ok(
                                     true,
-                                    "The table changed successfully."
+                                    "Category successfully deleted. The table changed successfully."
                                 );
                             },
                             errorMessage: "The table does not change.",
