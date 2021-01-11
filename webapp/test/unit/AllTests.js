@@ -1,5 +1,3 @@
-sap.ui.define([
-	"./model/formatter"
-], function() {
-	"use strict";
+sap.ui.define(["./model/formatter"], function () {
+    "use strict";
 });

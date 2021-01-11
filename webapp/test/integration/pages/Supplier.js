@@ -2,13 +2,9 @@ sap.ui.define(
     [
         "sap/ui/test/Opa5",
         "sap/ui/test/matchers/AggregationFilled",
-        "sap/ui/test/actions/Press"
+        "sap/ui/test/actions/Press",
     ],
-    function (
-        Opa5,
-        AggregationFilled,
-        Press,
-    ) {
+    function (Opa5, AggregationFilled, Press) {
         "use strict";
 
         var sViewName = "Supplier",
@@ -60,10 +56,7 @@ sap.ui.define(
                                 name: "items",
                             }),
                             success: function () {
-                                Opa5.assert.ok(
-                                    true,
-                                    "The table has items."
-                                );
+                                Opa5.assert.ok(true, "The table has items.");
                             },
                             errorMessage: "The table does not items.",
                         });

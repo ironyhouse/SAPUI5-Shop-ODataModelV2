@@ -48,5 +48,4 @@ sap.ui.define(["sap/ui/Shop/controller/utils/formatter"], function (formatter) {
             });
         }
     );
-
 });

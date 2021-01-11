@@ -52,12 +52,12 @@ sap.ui.define(
                             actions: new Press(),
                             success: function (aButtons) {
                                 return aButtons.filter(function (oButton) {
-                                    if(oButton.getText() == "OK") {
+                                    if (oButton.getText() == "OK") {
                                         oButton.firePress();
                                     }
                                 });
                             },
-                            errorMessage: "Category not deleted"
+                            errorMessage: "Category not deleted",
                         });
                     },
                     iPressOnCreateCategoryButton: function () {
@@ -94,7 +94,8 @@ sap.ui.define(
                             viewName: sViewName,
                             id: sTableId,
                             actions: function (oTable) {
-                                var nSelectedItem = oTable.getItems().length - 1;
+                                var nSelectedItem =
+                                    oTable.getItems().length - 1;
 
                                 oTable.setSelectedItem(
                                     oTable.getItems()[nSelectedItem],
@@ -116,10 +117,7 @@ sap.ui.define(
                                 name: "items",
                             }),
                             success: function () {
-                                Opa5.assert.ok(
-                                    true,
-                                    "The table has items."
-                                );
+                                Opa5.assert.ok(true, "The table has items.");
                             },
                             errorMessage: "The table does not items.",
                         });
