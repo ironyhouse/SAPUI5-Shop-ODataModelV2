@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core"
     xmlns="sap.m">
-    <Table id="ProductListTable" items="{oData>Products}" mode="{= ${State>/State/isEditProduct} ? 'MultiSelect' : null }" selectionChange="onSelectProductsPress" >
+    <Table id="ProductListTable" items="{Products}" mode="{= ${State>/State/isEditProduct} ? 'MultiSelect' : null }" selectionChange="onSelectProductsPress" >
         <headerToolbar>
             <OverflowToolbar design="Solid">
                 <!-- Title -->
@@ -33,19 +33,19 @@
         <items>
             <ColumnListItem type="Navigation" press=".onNavToSuppliers">
                 <HBox alignItems="Center" justifyContent="Start">
-                    <Text text="{oData>Name}" />
+                    <Text text="{Name}" />
                 </HBox>
                 <HBox alignItems="Center" justifyContent="Start">
                     <ObjectNumber
-                        number="{oData>Price}"
+                        number="{Price}"
                         unit="{i18n>usd}"
                         state="{
-                            path: 'oData>Price',
+                            path: 'Price',
 							formatter: '.formatter.priceState'
                         }"/>
                 </HBox>
                 <HBox alignItems="Center" justifyContent="Start">
-                    <RatingIndicator maxValue="5" value="{oData>Rating}" editable="false"/>
+                    <RatingIndicator maxValue="5" value="{Rating}" editable="false"/>
                 </HBox>
             </ColumnListItem>
         </items>

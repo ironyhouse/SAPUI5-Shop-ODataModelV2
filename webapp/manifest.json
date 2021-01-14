@@ -48,7 +48,7 @@
 			}
 		},
 		"models": {
-			"oData": {
+			"": {
 				"dataSource": "mainService",
 				"settings": {
 					"defaultBindingMode": "TwoWay",

@@ -16,7 +16,7 @@
 			<ObjectPageDynamicHeaderTitle>
 				<!-- Title -->
 				<heading>
-					<m:Title text="{oData>Name}" />
+					<m:Title text="{Name}" />
 				</heading>
 
 				<actions>
@@ -42,12 +42,12 @@
 								text="{i18n>categoryName}:"
 								required="{State>/State/isEditProduct}"
 								class="sapUiTinyMarginTopBottom" />
-							<m:Title text="{oData>Name}" visible="{= !${State>/State/isEditProduct}}" />
+							<m:Title text="{Name}" visible="{= !${State>/State/isEditProduct}}" />
 							<m:Input
 								width="40%"
 								visible="{State>/State/isEditProduct}"
 								value= "{
-									path: 'oData>Name',
+									path: 'Name',
 									type: 'sap.ui.model.type.String',
 									constraints: {
 										minLength: 1,

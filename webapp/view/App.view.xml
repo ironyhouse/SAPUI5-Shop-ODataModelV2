@@ -3,8 +3,8 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	displayBlock="true">
-	<Page>
-		<customHeader>
+	<!-- <Page> -->
+		<!-- <customHeader>
 			<f:ShellBar
 				id="ShellBar"
 				title="{i18n>appTitle}"
@@ -13,7 +13,7 @@
 				showNavButton="{State>/State/isNavBackButton}"
 				navButtonPressed="onNavBack">
 			</f:ShellBar>
-		</customHeader>
+		</customHeader> -->
 		<App id="app" />
-	</Page>
+	<!-- </Page> -->
 </mvc:View>

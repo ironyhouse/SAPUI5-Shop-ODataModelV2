@@ -9,7 +9,7 @@
 		ok=".onValueHelpOkPress"
 		cancel=".onValueHelpCancelPress"
 		afterClose=".onValueHelpAfterClose"
-		supportRanges="true"
+		supportRanges="false"
 		key="Name"
 		descriptionKey="Name">
 	</ValueHelpDialog>

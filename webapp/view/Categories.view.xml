@@ -49,7 +49,7 @@
 		</f:header>
 		<!-- Content -->
 		<f:content>
-			<Table id="CategoriesTable" class="sapUiSmallMarginTop" items="{oData>/Categories}" mode="SingleSelectLeft" selectionChange="onSelectCategoryPress" width="auto">
+			<Table id="CategoriesTable" class="sapUiSmallMarginTop" items="{/Categories}" mode="SingleSelectLeft" selectionChange="onSelectCategoryPress" width="auto">
 				<!-- Product List Bar -->
 				<headerToolbar>
 					<OverflowToolbar design="Solid">
@@ -73,7 +73,7 @@
 						type="Navigation"
 						press=".onNavToCategory">
 						<VBox class="sapUiSmallMarginBegin">
-							<Text text="{oData>Name}"/>
+							<Text text="{Name}"/>
 						</VBox>
 					</ColumnListItem>
 				</items>

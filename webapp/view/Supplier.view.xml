@@ -13,7 +13,7 @@
 				<heading>
 					<m:FlexBox fitContainer="true" alignItems="Center">
 						<!-- Name -->
-						<m:Title text="{oData>Name}" />
+						<m:Title text="{Name}" />
 					</m:FlexBox>
 				</heading>
 			</ObjectPageDynamicHeaderTitle>
@@ -29,11 +29,11 @@
 					text="{
 							parts: [
 								{path: 'i18n>supplierFullAddress'},
-								{path: 'oData>Address/Street'},
-								{path: 'oData>Address/City'},
-								{path: 'oData>Address/State'},
-								{path: 'oData>Address/ZipCode'},
-								{path: 'oData>Address/Country'}
+								{path: 'Address/Street'},
+								{path: 'Address/City'},
+								{path: 'Address/State'},
+								{path: 'Address/ZipCode'},
+								{path: 'Address/Country'}
 							],
 							formatter: 'formatMessage'
 						}" />

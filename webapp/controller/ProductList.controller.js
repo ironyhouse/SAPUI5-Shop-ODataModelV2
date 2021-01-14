@@ -51,8 +51,7 @@ sap.ui.define(
                         .sCategoriesURL;
 
                 this.getView().bindElement({
-                    path: "/" + sCategoriesURL,
-                    model: "oData",
+                    path: "/" + sCategoriesURL
                 });
 
                 oModel.setProperty("/State/isNavBackButton", true);
@@ -67,7 +66,7 @@ sap.ui.define(
                 var oSelectedListItem = oEvent.getSource(),
                     oRouter = this.getRouterForThis(),
                     sProductURL = oSelectedListItem
-                        .getBindingContext("oData")
+                        .getBindingContext()
                         .getPath()
                         .substr(1);
 
@@ -85,17 +84,17 @@ sap.ui.define(
                     "/State/isEditProduct",
                     true
                 );
+
+                // this.getModel().setDeferredGroups([
+                //     "CancelChangeCategory",
+                // ]);
             },
 
             /**
              * Save button press event handler.
              */
             onSaveChangesPress: function () {
-                var oModel = this.getModel("oData"),
-                    oProductListItems = this.byId(
-                        "ProductListTable"
-                    ).getBinding("items"),
-                    nValidationError = this.getMessageManager()
+                var nValidationError = this.getMessageManager()
                         .getMessageModel()
                         .getData().length;
 
@@ -104,11 +103,6 @@ sap.ui.define(
                         "/State/isEditProduct",
                         false
                     );
-
-                    oProductListItems.refresh(true)
-                    // oModel.submitChanges({
-                    //     success: oProductListItems.refresh(true),
-                    // });
                 }
             },
 
@@ -142,7 +136,7 @@ sap.ui.define(
              * Cancel button press event handler.
              */
             onDiscardChangesPress: function () {
-                var oModel = this.getModel("oData"),
+                var oModel = this.getModel(),
                     oProductListItems = this.byId(
                         "ProductListTable"
                     ).getBinding("items");
@@ -152,10 +146,18 @@ sap.ui.define(
                     false
                 );
 
-                oModel.submitChanges({
-                    groupId: "CancelChangeCategory",
-                    success: oProductListItems.refresh(true),
-                });
+                // console.log(oModel.getDefaultGroup());
+
+                // oModel.submitChanges({
+                //     groupId: "CancelDelete",
+                //     success: oProductListItems.refresh(true),
+                // });
+
+                // oModel.submitChanges({
+                //     groupId: "CancelAdd",
+                //     success: oProductListItems.refresh(true),
+                // });
+
                 // call the method to reset the request queue
                 oModel.resetChanges();
             },
@@ -218,7 +220,7 @@ sap.ui.define(
              *  This method add new products.
              */
             onProductDialogAddPress: function () {
-                var oModel = this.getModel("oData"),
+                var oModel = this.getModel(),
                     oAllProductsDialog = this.byId("AllProductsDialog"),
                     oAllProductsTable = this.byId("AllProductsTable"),
                     aSelectedItems = oAllProductsTable.getSelectedItems(),
@@ -226,34 +228,66 @@ sap.ui.define(
                         "ProductListTable"
                     ).getBinding("items"),
                     sProductsAddMessage = this.getI18nWord("productsAdd"),
-                    // sProductsAddErrorMessage = this.getI18nWord(
-                    //     "productsAddError"
-                    // ),
                     sCategoryName = this.getView()
-                        .getBindingContext("oData")
+                        .getBindingContext()
                         .getPath();
 
-                oModel.setDeferredGroups(["CancelChangeCategory"]);
+                oModel.setDeferredGroups(["CancelAdd"]);
 
                 if (aSelectedItems !== 0) {
                     aSelectedItems.forEach(function (item) {
                         var sSelectedItem =
                             item.getBindingContextPath() + "/$links/Category";
 
-                        oModel.update(
-                            sSelectedItem,
-                            { uri: sCategoryName }
-                        );
+                        oModel.update(sSelectedItem, { uri: sCategoryName });
 
                         oModel.remove(
                             item.getBindingContextPath() + "/$links/Category",
-                            { groupId: "CancelChangeCategory" }
+                            { groupId: "CancelAdd" }
                         );
                     });
 
                     oProductListItems.refresh(true),
                     oAllProductsDialog.destroy();
                     MessageToast.show(sProductsAddMessage);
+                }
+            },
+
+            /**
+             * This method removes products in category.
+             */
+            onDeleteProduct: function () {
+                var oModel = this.getModel(),
+                    // get Category Id
+                    oProductsTable = this.byId("ProductListTable"),
+                    aSelectedItems = oProductsTable.getSelectedItems(),
+                    oProductListItems = this.byId(
+                        "ProductListTable"
+                    ).getBinding("items"),
+                    sCategoryName = this.getView()
+                        .getBindingContext()
+                        .getPath(),
+                    sProductsDeleteMessage = this.getI18nWord(
+                        "productsDeleteMessage"
+                    );
+
+                oModel.setDeferredGroups(["CancelDelete"]);
+
+                if (aSelectedItems !== 0) {
+                    aSelectedItems.forEach(function (item) {
+                        oModel.remove(
+                            item.getBindingContextPath() + "/$links/Category"
+                        );
+
+                        oModel.update(
+                            item.getBindingContextPath() + "/$links/Category",
+                            { uri: sCategoryName },
+                            { groupId: "CancelDelete" }
+                        );
+                    });
+
+                    oProductListItems.refresh(true),
+                        MessageToast.show(sProductsDeleteMessage);
                 }
             },
 
@@ -307,7 +341,7 @@ sap.ui.define(
                 if (oSelectItem.length === 1) {
                     sCategoryName = this.byId("ProductListTable")
                         .getSelectedItem()
-                        .getBindingContext("oData")
+                        .getBindingContext()
                         .getProperty("Name");
 
                     sMessage = this.getI18nWord(
@@ -326,43 +360,6 @@ sap.ui.define(
                         }
                     }.bind(this),
                 });
-            },
-
-            /**
-             * This method removes products in category.
-             */
-            onDeleteProduct: function () {
-                var oModel = this.getModel("oData"),
-                    // get Category Id
-                    oProductsTable = this.byId("ProductListTable"),
-                    aSelectedItems = oProductsTable.getSelectedItems(),
-                    oProductListItems = this.byId(
-                        "ProductListTable"
-                    ).getBinding("items"),
-                    sCategoryName = this.getView()
-                        .getBindingContext("oData")
-                        .getPath(),
-                    sProductsDeleteMessage = this.getI18nWord(
-                        "productsDeleteMessage"
-                    );
-                // sProductsDeleteError = this.getI18nWord("productsDeleteError");
-
-                if (aSelectedItems !== 0) {
-                    aSelectedItems.forEach(function (item) {
-                        oModel.remove(
-                            item.getBindingContextPath() + "/$links/Category"
-                        );
-
-                        oModel.update(
-                            item.getBindingContextPath() + "/$links/Category",
-                            { uri: sCategoryName },
-                            { groupId: "CancelChangeCategory" }
-                        );
-                    });
-
-                    oProductListItems.refresh(true),
-                    MessageToast.show(sProductsDeleteMessage);
-                }
             },
 
             /**
@@ -421,26 +418,15 @@ sap.ui.define(
                     and: true,
                 });
 
-                if (sQueryPriceFrom && !sQueryPriceTo) {
+                if (sQueryPriceFrom) {
                     aFilter.aFilters.push(
                         new Filter("Price", FilterOperator.GE, sQueryPriceFrom)
                     );
                 }
 
-                if (!sQueryPriceFrom && sQueryPriceTo) {
+                if (sQueryPriceTo) {
                     aFilter.aFilters.push(
                         new Filter("Price", FilterOperator.LE, sQueryPriceTo)
-                    );
-                }
-
-                if (sQueryPriceFrom && sQueryPriceTo) {
-                    aFilter.aFilters.push(
-                        new Filter({
-                            path: "Price",
-                            operator: FilterOperator.BT,
-                            value1: sQueryPriceFrom,
-                            value2: sQueryPriceTo,
-                        })
                     );
                 }
 

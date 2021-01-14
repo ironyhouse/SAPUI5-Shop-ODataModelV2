@@ -6,12 +6,12 @@
 	xmlns:f="sap.f">
  	<List
 	 	id="SupplierProductList"
-		items="{oData>/Products}"
+		items="{Products}"
 		headerText="{i18n>productListTitle}">
 		<ObjectListItem
 			type="Active"
-			title="{oData>Name}"
-			number="{oData>Price}"
+			title="{Name}"
+			number="{Price}"
 			numberUnit="{i18n>usd}"
 			numberState="Success" >
 		</ObjectListItem>

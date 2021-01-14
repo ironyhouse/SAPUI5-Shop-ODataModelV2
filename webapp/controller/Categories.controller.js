@@ -63,7 +63,7 @@ sap.ui.define(
                 var oSelectedListItem = oEvent.getSource(),
                     oRouter = this.getRouterForThis(),
                     sCategoriesURL = oSelectedListItem
-                        .getBindingContext("oData")
+                        .getBindingContext()
                         .getPath()
                         .substr(1);
 
@@ -100,14 +100,13 @@ sap.ui.define(
                         )
                         .then(
                             function (oTable) {
-                                // oTable.setModel(oModel, "oData");
                                 oTable.setModel(oValueHelpLayout, "columns");
 
                                 // for desktop layout
                                 if (oTable.bindRows) {
                                     oTable.bindAggregation(
                                         "rows",
-                                        "oData>/Categories"
+                                        "/Categories"
                                     );
                                 }
 
@@ -115,7 +114,7 @@ sap.ui.define(
                                 if (oTable.bindItems) {
                                     oTable.bindAggregation(
                                         "items",
-                                        "oData>/Categories",
+                                        "/Categories",
                                         function () {
                                             return new ColumnListItem({
                                                 cells: aTableColumns.map(
@@ -200,7 +199,7 @@ sap.ui.define(
              *  This method adds new Category.
              */
             onCreateCategoryFormPress: function () {
-                var oModel = this.getModel("oData"),
+                var oModel = this.getModel(),
                     oCategoryName = this.byId("CategoryNameInput"),
                     sCategoryName = oCategoryName.getValue(),
                     oTable = this.byId("CategoriesTable"),
@@ -212,12 +211,14 @@ sap.ui.define(
                         "categoryCreateMessageError",
                         sCategoryName
                     ),
-                    nCategoryID;
+                    nCategoryID = new Date();
+
+                    console.log(nCategoryID);
 
                 // set new category id
                 if (!!oTable.getItems().length) {
                     var oTableItemsLength = oTable.getItems().length - 1,
-                        oTableLastItem = oTable.getItems()[oTableItemsLength].getBindingContext("oData");
+                        oTableLastItem = oTable.getItems()[oTableItemsLength].getBindingContext();
 
                     nCategoryID = oTableLastItem.getProperty("ID") + 1;
                 } else {
@@ -283,7 +284,7 @@ sap.ui.define(
             onDeleteCategoryButtonPress: function () {
                 var oSelectItem = this.byId("CategoriesTable")
                         .getSelectedItem()
-                        .getBindingContext("oData"),
+                        .getBindingContext(),
                     sCategoryName = oSelectItem.getProperty("Name"),
                     sMessage = this.getI18nWord(
                         "categoryMessageDelete",
@@ -304,11 +305,11 @@ sap.ui.define(
              *  This method removes new Category.
              */
             onDeleteCategory: function () {
-                var oModel = this.getModel("oData"),
+                var oModel = this.getModel(),
                     // get Category Id
                     oSelectItem = this.byId("CategoriesTable")
                         .getSelectedItem()
-                        .getBindingContext("oData"),
+                        .getBindingContext(),
                     sCategoryName = oSelectItem.getProperty("Name"),
                     sMessageSuccess = this.getI18nWord(
                         "categoryDeleteMessageSuccessful",

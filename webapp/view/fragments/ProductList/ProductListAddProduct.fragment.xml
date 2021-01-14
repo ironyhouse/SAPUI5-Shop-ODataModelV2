@@ -39,7 +39,7 @@
             </fb:filterGroupItems>
         </fb:FilterBar>
         <!-- Table -->
-        <Table id="AllProductsTable" mode="MultiSelect" selectionChange="onSelectProductsInDialogPress" items="{oData>/Products}" growing="true" growingThreshold="4" width="auto">
+        <Table id="AllProductsTable" mode="MultiSelect" selectionChange="onSelectProductsInDialogPress" items="{/Products}" growing="true" growingThreshold="4" width="auto">
             <columns>
                 <Column>
                     <HBox alignItems="Center" justifyContent="Center">
@@ -60,13 +60,13 @@
             <items>
                 <ColumnListItem>
                     <VBox>
-                        <Text text="{oData>Name}"/>
+                        <Text text="{Name}"/>
                     </VBox>
                     <HBox alignItems="Center" justifyContent="Start">
-                        <ObjectNumber number="{oData>Price}" unit="{i18n>usd}" state="Success" />
+                        <ObjectNumber number="{Price}" unit="{i18n>usd}" state="Success" />
                     </HBox>
                     <HBox alignItems="Center" justifyContent="Start">
-                        <RatingIndicator maxValue="5" value="{oData>Rating}" editable="false"/>
+                        <RatingIndicator maxValue="5" value="{Rating}" editable="false"/>
                     </HBox>
                 </ColumnListItem>
             </items>
