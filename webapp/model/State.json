@@ -5,6 +5,10 @@
         "isShowDeleteCategoryButton": false,
         "isEditProduct": false,
         "isButtonAddProductForm": false,
-        "isEnabledDeleteProductButton": false
+        "isEnabledDeleteProductButton": false,
+        "sSearchName": "",
+        "nSearchRating": false,
+        "nSearchPriceTo": null,
+        "nSearchPriceFrom": null
     }
 }

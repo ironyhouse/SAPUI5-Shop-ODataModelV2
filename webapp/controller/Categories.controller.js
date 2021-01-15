@@ -5,8 +5,6 @@ sap.ui.define(
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
         "sap/ui/core/Fragment",
-        "sap/m/Label",
-        "sap/m/ColumnListItem",
         "sap/m/MessageToast",
         "sap/m/MessageBox",
     ],
@@ -16,8 +14,6 @@ sap.ui.define(
         Filter,
         FilterOperator,
         Fragment,
-        Label,
-        ColumnListItem,
         MessageToast,
         MessageBox
     ) {
@@ -78,8 +74,7 @@ sap.ui.define(
             onValueHelpOpenPress: function () {
                 var oView = this.getView(),
                     oProductValueHelp = this.byId("ProductValueHelp"),
-                    oValueHelpLayout = this.getModel("ValueHelpLayout"),
-                    aTableColumns = oValueHelpLayout.getData().cols;
+                    oValueHelpLayout = this.getModel("ValueHelpLayout");
 
                 if (!oProductValueHelp) {
                     // load asynchronous XML fragment
@@ -112,24 +107,17 @@ sap.ui.define(
 
                                 // for mobile layout
                                 if (oTable.bindItems) {
-                                    oTable.bindAggregation(
-                                        "items",
-                                        "/Categories",
-                                        function () {
-                                            return new ColumnListItem({
-                                                cells: aTableColumns.map(
-                                                    function (column) {
-                                                        return new Label({
-                                                            text:
-                                                                "{" +
-                                                                column.template +
-                                                                "}",
-                                                        });
-                                                    }
-                                                ),
-                                            });
-                                        }
-                                    );
+                                    Fragment.load({
+                                        id: this.getView().getId(),
+                                        name:
+                                            "sap.ui.Shop.view.fragments.Categories.ValueHelpListItem",
+                                        controller: this,
+                                    }).then(function (oFragment) {
+                                        oTable.bindItems({
+                                            path: "/Categories",
+                                            template: oFragment,
+                                        });
+                                    });
                                 }
 
                                 // show form
@@ -174,7 +162,7 @@ sap.ui.define(
              */
             onAddCategoryPress: function () {
                 var oView = this.getView(),
-                    oAllProductsDialog = this.byId("categoryCreator");
+                    oAllProductsDialog = this.byId("CategoryCreatorDialog");
 
                 if (!oAllProductsDialog) {
                     // load asynchronous XML fragment
@@ -183,11 +171,11 @@ sap.ui.define(
                         name:
                             "sap.ui.Shop.view.fragments.Categories.CategoriesCreateCategoryForm",
                         controller: this,
-                    }).then(function (oAllProductsDialog) {
+                    }).then(function (oPopover) {
                         // connect dialog to the root view of this component (models, lifecycle)
-                        oView.addDependent(oAllProductsDialog);
+                        oView.addDependent(oPopover);
                         // show form
-                        oAllProductsDialog.open();
+                        oPopover.open();
                     });
                 } else {
                     // show form
@@ -211,19 +199,7 @@ sap.ui.define(
                         "categoryCreateMessageError",
                         sCategoryName
                     ),
-                    nCategoryID = new Date();
-
-                    console.log(nCategoryID);
-
-                // set new category id
-                if (!!oTable.getItems().length) {
-                    var oTableItemsLength = oTable.getItems().length - 1,
-                        oTableLastItem = oTable.getItems()[oTableItemsLength].getBindingContext();
-
-                    nCategoryID = oTableLastItem.getProperty("ID") + 1;
-                } else {
-                    nCategoryID = 0;
-                }
+                    nCategoryID = Math.floor(Date.parse(new Date()) * 0.0001);
 
                 oModel.create(
                     "/Categories",
@@ -241,7 +217,7 @@ sap.ui.define(
                     }
                 );
 
-                this.byId("categoryCreator").close();
+                this.byId("CategoryCreatorDialog").close();
                 oCategoryName.setValue();
                 this.getMessageManager().removeAllMessages();
             },
@@ -250,7 +226,7 @@ sap.ui.define(
              *  This method closes popover.
              */
             onCancelCategoryFormPress: function () {
-                this.byId("categoryCreator").close();
+                this.byId("CategoryCreatorDialog").close();
                 this.byId("CategoryNameInput").setValue("");
                 this.getMessageManager().removeAllMessages();
             },

@@ -21,6 +21,7 @@ sap.ui.define(
     ) {
         "use strict";
         return BaseController.extend("sap.ui.Shop.controller.ProductList", {
+
             formatter: formatter,
 
             /**
@@ -51,7 +52,7 @@ sap.ui.define(
                         .sCategoriesURL;
 
                 this.getView().bindElement({
-                    path: "/" + sCategoriesURL
+                    path: "/" + sCategoriesURL,
                 });
 
                 oModel.setProperty("/State/isNavBackButton", true);
@@ -95,8 +96,8 @@ sap.ui.define(
              */
             onSaveChangesPress: function () {
                 var nValidationError = this.getMessageManager()
-                        .getMessageModel()
-                        .getData().length;
+                    .getMessageModel()
+                    .getData().length;
 
                 if (nValidationError === 0) {
                     this.getModel("State").setProperty(
@@ -113,23 +114,23 @@ sap.ui.define(
              */
             onCancelConfirmOpen: function (oEvent) {
                 var oButton = oEvent.getSource(),
-                    oView = this.getView();
+                    oView = this.getView(),
+                    oPopover = this.byId("CancelPopover");
 
                 // create popover
-                if (!this._pPopover) {
-                    this._pPopover = Fragment.load({
+                if (!oPopover) {
+                    Fragment.load({
                         id: oView.getId(),
                         name:
                             "sap.ui.Shop.view.fragments.ProductList.ProductListCancelEditPopover",
                         controller: this,
                     }).then(function (oPopover) {
                         oView.addDependent(oPopover);
-                        return oPopover;
+                        oPopover.openBy(oButton);
                     });
-                }
-                this._pPopover.then(function (oPopover) {
+                } else {
                     oPopover.openBy(oButton);
-                });
+                }
             },
 
             /**
@@ -146,12 +147,10 @@ sap.ui.define(
                     false
                 );
 
-                // console.log(oModel.getDefaultGroup());
-
-                // oModel.submitChanges({
-                //     groupId: "CancelDelete",
-                //     success: oProductListItems.refresh(true),
-                // });
+                oModel.submitChanges({
+                    groupId: "CancelDelete",
+                    success: oProductListItems.refresh(true),
+                });
 
                 // oModel.submitChanges({
                 //     groupId: "CancelAdd",
@@ -169,23 +168,23 @@ sap.ui.define(
              */
             onMessagePopoverPress: function (oEvent) {
                 var oButton = oEvent.getSource(),
-                    oView = this.getView();
+                    oView = this.getView(),
+                    oErrorPopover = this.byId("ErrorPopover");
 
                 // create popover
-                if (!this._pPopoverError) {
-                    this._pPopoverError = Fragment.load({
+                if (!oErrorPopover) {
+                    Fragment.load({
                         id: oView.getId(),
                         name:
                             "sap.ui.Shop.view.fragments.ProductList.MessageErrorPopover",
                         controller: this,
                     }).then(function (oPopover) {
                         oView.addDependent(oPopover);
-                        return oPopover;
+                        oPopover.openBy(oButton);
                     });
+                } else {
+                    oErrorPopover.openBy(oButton);
                 }
-                this._pPopoverError.then(function (oPopover) {
-                    oPopover.openBy(oButton);
-                });
             },
 
             /**
@@ -248,7 +247,7 @@ sap.ui.define(
                     });
 
                     oProductListItems.refresh(true),
-                    oAllProductsDialog.destroy();
+                        oAllProductsDialog.destroy();
                     MessageToast.show(sProductsAddMessage);
                 }
             },
@@ -296,8 +295,13 @@ sap.ui.define(
              *  This method close popover.
              */
             onProductDialogCancelPress: function () {
-                var oAllProductsDialog = this.byId("AllProductsDialog");
+                var oAllProductsDialog = this.byId("AllProductsDialog"),
+                    oTable = this.byId("AllProductsTable");
+
+
                 oAllProductsDialog.close();
+                oTable.removeSelections();
+                this.onFiltersClear();
             },
 
             /**
@@ -395,15 +399,18 @@ sap.ui.define(
             onFilterProducts: function () {
                 var oTable = this.byId("AllProductsTable"),
                     oItemsBinding = oTable.getBinding("items"),
-                    sQueryName = this.getView()
-                        .byId("FilterName")
-                        .getValue()
-                        .trim(),
-                    sQueryPriceFrom = this.getView()
-                        .byId("PriceFrom")
-                        .getValue(),
-                    sQueryPriceTo = this.getView().byId("PriceTo").getValue(),
-                    sQueryRating = this.byId("FilterRating").getSelectedKey(),
+                    sQueryName = this.getModel("State").getProperty(
+                        "/State/sSearchName"
+                    ),
+                    sQueryPriceFrom = this.getModel("State").getProperty(
+                        "/State/nSearchPriceFrom"
+                    ),
+                    sQueryPriceTo = this.getModel("State").getProperty(
+                        "/State/nSearchPriceTo"
+                    ),
+                    sQueryRating = this.getModel("State").getProperty(
+                        "/State/nSearchRating"
+                    ),
                     aFilter;
 
                 aFilter = new Filter({
@@ -449,17 +456,22 @@ sap.ui.define(
              * "Clear" button press event handler of the "FilterBar".
              */
             onFiltersClear: function () {
-                var sQueryName = this.getView().byId("FilterName"),
-                    sQueryPrice = this.getView().byId("FilterPrice"),
-                    sQueryRating = this.byId("FilterRating");
+                var sQueryRating = this.byId("FilterRating");
 
-                sQueryName.setValue("");
-                sQueryPrice.setValue(null);
-                sQueryRating.setSelectedItem(
-                    sQueryRating.getItems()[0],
-                    true,
-                    true
-                );
+                this.getModel("State").setProperty("/State/sSearchName", ""),
+                    this.getModel("State").setProperty(
+                        "/State/nSearchPriceFrom",
+                        null
+                    ),
+                    this.getModel("State").setProperty(
+                        "/State/nSearchPriceTo",
+                        null
+                    ),
+                    sQueryRating.setSelectedItem(
+                        sQueryRating.getItems()[0],
+                        true,
+                        true
+                    );
 
                 this.onFilterProducts();
             },

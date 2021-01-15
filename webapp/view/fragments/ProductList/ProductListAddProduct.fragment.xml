@@ -9,25 +9,25 @@
                 <!-- Name -->
                 <fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Name" label="{i18n>name}">
                     <fb:control>
-                        <Input id="FilterName" placeholder="{i18n>productSearchPlaceholder}" value="" submit="onFilterProducts" />
+                        <Input id="FilterName" placeholder="{i18n>productSearchPlaceholder}" value="{State>/State/sSearchName}" submit="onFilterProducts" />
                     </fb:control>
                 </fb:FilterGroupItem>
                 <!-- Price -->
                 <fb:FilterGroupItem  groupTitle="{i18n>price}" groupName="G2" visibleInFilterBar="false" name="PriceFrom" label="{i18n>priceFrom}">
                     <fb:control>
-                        <Input id="PriceFrom" type="Number" placeholder="{i18n>producSearchPriceFrom}" value="" submit="onFilterProducts" />
+                        <Input id="PriceFrom" type="Number" placeholder="{i18n>producSearchPriceFrom}" value="{State>/State/nSearchPriceFrom}" submit="onFilterProducts" />
                     </fb:control>
                 </fb:FilterGroupItem>
                 <fb:FilterGroupItem  groupTitle="{i18n>price}" groupName="G2" visibleInFilterBar="false" name="PriceTo" label="{i18n>priceTo}">
                     <fb:control>
-                        <Input id="PriceTo" type="Number" placeholder="{i18n>producSearchPriceTo}" value="" submit="onFilterProducts" />
+                        <Input id="PriceTo" type="Number" placeholder="{i18n>producSearchPriceTo}" value="{State>/State/nSearchPriceTo}" submit="onFilterProducts" />
                     </fb:control>
                 </fb:FilterGroupItem>
                 <!-- Rating -->
                 <fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Rating" label="{i18n>rating}">
                     <fb:control>
-                        <Select id="FilterRating" change="onFilterProducts">
-                            <core:Item key="0" text="All"/>
+                        <Select id="FilterRating" selectedKey="{State>/State/nSearchRating}" change="onFilterProducts">
+                            <core:Item key="0" text="{i18n>all}"/>
                             <core:Item key="1" text="1"/>
                             <core:Item key="2" text="2"/>
                             <core:Item key="3" text="3"/>

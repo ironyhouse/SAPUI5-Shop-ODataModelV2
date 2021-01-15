@@ -2,6 +2,7 @@
 	xmlns="sap.m"
 	xmlns:core="sap.ui.core">
 	<Popover
+		id="CancelPopover"
 		title="{i18n>editCancel}"
 		class="sapUiResponsivePadding--header sapUiResponsivePadding--footer"
 		placement="Top"

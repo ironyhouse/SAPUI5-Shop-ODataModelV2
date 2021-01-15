@@ -4,9 +4,9 @@
     <Table id="ProductListTable" items="{Products}" mode="{= ${State>/State/isEditProduct} ? 'MultiSelect' : null }" selectionChange="onSelectProductsPress" >
         <headerToolbar>
             <OverflowToolbar design="Solid">
-                <!-- Title -->
+
                 <Title class="sapUiSmallMarginBegin" text="{i18n>productListTitle}" />
-                <!-- Spacer -->
+
                 <ToolbarSpacer />
                     <Button text="{i18n>add}" type="Transparent" id="AddProductsButton" press="onAddProductPress" visible="{State>/State/isEditProduct}" />
                     <Button text="{i18n>delete}" id="DeleteProductsButton" enabled="{State>/State/isEnabledDeleteProductButton}" type="Transparent" press="onDeleteProductPress" visible="{State>/State/isEditProduct}" />

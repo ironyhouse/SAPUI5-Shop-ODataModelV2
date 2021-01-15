@@ -5,7 +5,9 @@
 	xmlns="sap.m"
 	xmlns:f="sap.f"
 	xmlns:fb="sap.ui.comp.filterbar"
-	xmlns:vm="sap.ui.comp.variants">
+	xmlns:vm="sap.ui.comp.variants"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable">
 	<f:DynamicPage class="sapUiNoContentPadding">
 		<!-- Title -->
 		<f:title>
@@ -19,65 +21,53 @@
 		<f:header>
 			<f:DynamicPageHeader pinnable="true">
 				<f:content>
-					<fb:FilterBar
-						id="filterbar"
-						search="onFilterCategories"
-						clear="onFilterCategoriesClear"
-						showClearOnFB="true"
-						showFilterConfiguration="true"
-						useToolbar="false"
-						showGoOnFB="true">
-						<fb:filterGroupItems >
-							<!-- Name -->
-							<fb:FilterGroupItem groupName="G1" visibleInFilterBar="true" name="Name" label="{i18n>categoryName}">
-								<fb:control>
-									<MultiInput
-										id="CategoriesMultiInput"
-										placeholder="{i18n>selectCategoryPlaceholder}"
-										width="40%"
-										valueHelpOnly="true"
-										valueHelpRequest="onValueHelpOpenPress"
-										tokenUpdate="onFilterCategories"
-										showValueHelp="true">
-									</MultiInput>
-								</fb:control>
-							</fb:FilterGroupItem>
-						</fb:filterGroupItems>
-					</fb:FilterBar>
+					<smartFilterBar:SmartFilterBar
+						id="smartFilterBar"
+						entitySet="Categories">
+						<smartFilterBar:controlConfiguration>
+							<smartFilterBar:ControlConfiguration
+								key="Name"
+								visibleInAdvancedArea="true"
+								preventInitialDataFetchInValueHelpDialog="false">
+							</smartFilterBar:ControlConfiguration>
+							<smartFilterBar:ControlConfiguration
+								key="ID"
+								visibleInAdvancedArea="true"
+								preventInitialDataFetchInValueHelpDialog="false">
+							</smartFilterBar:ControlConfiguration>
+						</smartFilterBar:controlConfiguration>
+					</smartFilterBar:SmartFilterBar>
 				</f:content>
 			</f:DynamicPageHeader>
 		</f:header>
 		<!-- Content -->
 		<f:content>
-			<Table id="CategoriesTable" class="sapUiSmallMarginTop" items="{/Categories}" mode="SingleSelectLeft" selectionChange="onSelectCategoryPress" width="auto">
-				<!-- Product List Bar -->
-				<headerToolbar>
-					<OverflowToolbar design="Solid">
-						<!-- Title -->
-						<Title class="sapUiMediumMarginBegin" text="{i18n>categories}" />
-						<!-- Spacer -->
-						<ToolbarSpacer />
+        <smartTable:SmartTable
+            id="smartTable_ResponsiveTable"
+            initiallyVisibleFields="Name"
+            header="{i18n>categories}"
+			ignoredFields="ID"
+            showRowCount="true"
+            enableAutoBinding="true"
+            smartFilterId="smartFilterBar"
+            tableType="ResponsiveTable"
+            editable="false"
+            entitySet="Categories"
+            useVariantManagement="true"
+            useTablePersonalisation="true"
+            useExportToExcel="true">
+				<smartTable:customToolbar>
+					<OverflowToolbar design="Transparent">
+						<ToolbarSpacer/>
 						<Button id="AddCategoryButton" text="{i18n>add}" type="Transparent" press="onAddCategoryPress" />
 						<Button id="DeleteCategoryButton" text= "{i18n>delete}" type="Transparent" enabled="{State>/State/isShowDeleteCategoryButton}" press="onDeleteCategoryButtonPress" />
 					</OverflowToolbar>
-				</headerToolbar>
-				<columns>
-					<Column>
-						<HBox class="sapUiSmallMarginBegin" alignItems="Center" justifyContent="Center">
-							<Label text="{i18n>name}" design="Bold" />
-						</HBox>
-					</Column>
-				</columns>
-				<items>
-					<ColumnListItem
-						type="Navigation"
-						press=".onNavToCategory">
-						<VBox class="sapUiSmallMarginBegin">
-							<Text text="{Name}"/>
-						</VBox>
+				</smartTable:customToolbar>
+				<Table id="CategoriesTable" mode="SingleSelectLeft" selectionChange="onSelectCategoryPress">
+					<ColumnListItem type="Navigation" press=".onNavToCategory">
 					</ColumnListItem>
-				</items>
-			</Table>
+				</Table>
+		</smartTable:SmartTable>
 		</f:content>
 	</f:DynamicPage>
 </mvc:View>

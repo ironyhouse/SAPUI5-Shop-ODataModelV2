@@ -1,0 +1,5 @@
+<ColumnListItem xmlns="sap.m" xmlns:core="sap.ui.core" type="Navigation" press=".onNavToProductInfo">
+    <VBox>
+        <Text text="{Name}"/>
+    </VBox>
+</ColumnListItem>
