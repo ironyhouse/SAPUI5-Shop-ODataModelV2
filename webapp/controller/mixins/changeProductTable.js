@@ -19,17 +19,19 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
                 sCategoryName = this.getView().getBindingContext().getPath();
 
             if (aSelectedItems !== 0) {
-                aSelectedItems.forEach(function (item) {
-                    var sSelectedItem =
-                        item.getBindingContextPath() + "/$links/Category";
+                aSelectedItems.forEach(
+                    function (item) {
+                        var sSelectedItem =
+                            item.getBindingContextPath() + "/$links/Category";
 
-                    oModel.update(sSelectedItem, { uri: sCategoryName });
+                        oModel.update(sSelectedItem, { uri: sCategoryName });
 
-                    oModel.remove(
-                        item.getBindingContextPath() + "/$links/Category",
-                        { groupId: "CancelChangeCategory" }
-                    );
-                });
+                        this._addBatchRequest(
+                            item.getBindingContextPath() + "/$links/Category",
+                            "remove"
+                        );
+                    }.bind(this)
+                );
 
                 oProductListItems.refresh(true);
                 oAllProductsDialog.destroy();
@@ -50,23 +52,23 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
                 oProductListItems = this.byId("ProductListTable").getBinding(
                     "items"
                 ),
-                sCategoryName = this.getView().getBindingContext().getPath(),
                 sProductsDeleteMessage = this.getI18nWord(
                     "productsDeleteMessage"
                 );
 
             if (aSelectedItems !== 0) {
-                aSelectedItems.forEach(function (item) {
-                    oModel.remove(
-                        item.getBindingContextPath() + "/$links/Category"
-                    );
+                aSelectedItems.forEach(
+                    function (item) {
+                        oModel.remove(
+                            item.getBindingContextPath() + "/$links/Category"
+                        );
 
-                    oModel.update(
-                        item.getBindingContextPath() + "/$links/Category",
-                        { uri: sCategoryName },
-                        { groupId: "CancelChangeCategory" }
-                    );
-                });
+                        this._addBatchRequest(
+                            item.getBindingContextPath() + "/$links/Category",
+                            "update"
+                        );
+                    }.bind(this)
+                );
 
                 oProductListItems.refresh(true);
                 MessageToast.show(sProductsDeleteMessage);
@@ -75,6 +77,51 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
                     false
                 );
             }
+        },
+
+        /**
+         * This method saves unique requests.
+         * @private
+         * @return {void}
+         */
+        _addBatchRequest: function (sProductName, sOperation) {
+            var uniqueRequest = true;
+            this.aBatchRequest.forEach(function (item) {
+                if (item.path === sProductName) {
+                    uniqueRequest = false;
+                    return;
+                }
+            });
+            if (uniqueRequest) {
+                this.aBatchRequest.push({
+                    path: sProductName,
+                    operation: sOperation,
+                });
+            }
+        },
+
+        /**
+         * This method create unique requests.
+         * @private
+         * @return {void}
+         */
+        _createBatchRequest: function () {
+            var oModel = this.getModel(),
+                sCategoryName = this.getView().getBindingContext().getPath();
+
+            this.aBatchRequest.forEach(function (item) {
+                if (item.operation === "remove") {
+                    oModel.remove(item.path, {
+                        groupId: "CancelChangeCategory",
+                    });
+                } else {
+                    oModel.update(
+                        item.path,
+                        { uri: sCategoryName },
+                        { groupId: "CancelChangeCategory" }
+                    );
+                }
+            });
         },
     };
 });

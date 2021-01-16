@@ -102,6 +102,7 @@ sap.ui.define(
                     );
                     // set Deferred Groups
                     oModel.setDeferredGroups(aDeferredGroups);
+                    this.aBatchRequest = [];
                 },
 
                 /**
@@ -121,6 +122,7 @@ sap.ui.define(
                             "/State/isEditProduct",
                             false
                         );
+
                         oModel.resetChanges(["/Products"], true);
                         oModel.submitChanges();
                         MessageToast.show(sMessage);
@@ -171,13 +173,12 @@ sap.ui.define(
                         false
                     );
 
-                    // if (oModel.hasPendingChanges()) {
+                    this._createBatchRequest();
                     oModel.submitChanges({
                         groupId: "CancelChangeCategory",
                         success: oProductListItems.refresh(true),
                     });
                     this.getModel().resetChanges();
-                    // }
                 },
 
                 /**
