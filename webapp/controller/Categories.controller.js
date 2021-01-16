@@ -43,6 +43,8 @@ sap.ui.define(
 
             /**
              *  Bind context to the view.
+             *  @private
+             *  @return {void}
              */
             _onObjectMatched: function () {
                 var oModel = this.getModel("State");
@@ -52,8 +54,9 @@ sap.ui.define(
 
             /**
              *  This method navigates to selected product category.
-             *
+             * @public
              * @param {sap.ui.base.Event} oEvent event object.
+             * @return {void}
              */
             onNavToCategory: function (oEvent) {
                 var oSelectedListItem = oEvent.getSource(),
@@ -69,96 +72,10 @@ sap.ui.define(
             },
 
             /**
-             *  This method open Value Help dialog.
-             */
-            onValueHelpOpenPress: function () {
-                var oView = this.getView(),
-                    oProductValueHelp = this.byId("ProductValueHelp"),
-                    oValueHelpLayout = this.getModel("ValueHelpLayout");
-
-                if (!oProductValueHelp) {
-                    // load asynchronous XML fragment
-                    Fragment.load({
-                        id: oView.getId(),
-                        name:
-                            "sap.ui.Shop.view.fragments.Categories.CategoriesValueHelp",
-                        controller: this,
-                    })
-                        .then(
-                            function (oProductValueHelp) {
-                                // connect dialog to the root view of this component (models, lifecycle)
-                                oView.addDependent(oProductValueHelp);
-                                this.oProductValueHelp = oProductValueHelp;
-
-                                return oProductValueHelp.getTableAsync();
-                            }.bind(this)
-                        )
-                        .then(
-                            function (oTable) {
-                                oTable.setModel(oValueHelpLayout, "columns");
-
-                                // for desktop layout
-                                if (oTable.bindRows) {
-                                    oTable.bindAggregation(
-                                        "rows",
-                                        "/Categories"
-                                    );
-                                }
-
-                                // for mobile layout
-                                if (oTable.bindItems) {
-                                    Fragment.load({
-                                        id: this.getView().getId(),
-                                        name:
-                                            "sap.ui.Shop.view.fragments.Categories.ValueHelpListItem",
-                                        controller: this,
-                                    }).then(function (oFragment) {
-                                        oTable.bindItems({
-                                            path: "/Categories",
-                                            template: oFragment,
-                                        });
-                                    });
-                                }
-
-                                // show form
-                                this.oProductValueHelp.update();
-                            }.bind(this)
-                        )
-                        .then(
-                            function () {
-                                // show form
-                                this.oProductValueHelp.open();
-                            }.bind(this)
-                        );
-                } else {
-                    // show form
-                    oProductValueHelp.open();
-                }
-            },
-
-            /**
-             *  This method adds tokens to multiInput and closes Value Help dialog.
-             */
-            onValueHelpOkPress: function (oEvent) {
-                var aTokens = oEvent.getParameter("tokens");
-
-                // set token to multiInput
-                this.byId("CategoriesMultiInput").setTokens(aTokens);
-                this.byId("CategoriesMultiInput").fireTokenUpdate();
-                // close Value Help
-                this.byId("ProductValueHelp").close();
-            },
-
-            /**
-             *  This method closes Value Help dialog.
-             */
-            onValueHelpCancelPress: function () {
-                this.byId("ProductValueHelp").close();
-            },
-
-            /**
              * "Add" button press event handler (in category table).
-             *  This method open popover.
+             *  This method opens product popover.
+             *  @public
+             *  @return {void}
              */
             onAddCategoryPress: function () {
                 var oView = this.getView(),
@@ -185,12 +102,13 @@ sap.ui.define(
 
             /**
              *  This method adds new Category.
+             *  @public
+             *  @return {void}
              */
             onCreateCategoryFormPress: function () {
                 var oModel = this.getModel(),
                     oCategoryName = this.byId("CategoryNameInput"),
                     sCategoryName = oCategoryName.getValue(),
-                    oTable = this.byId("CategoriesTable"),
                     sMessageSuccess = this.getI18nWord(
                         "categoryCreateMessageSuccessful",
                         sCategoryName
@@ -223,7 +141,9 @@ sap.ui.define(
             },
 
             /**
-             *  This method closes popover.
+             *  This method closes category popover.
+             *  @public
+             *  @return {void}
              */
             onCancelCategoryFormPress: function () {
                 this.byId("CategoryCreatorDialog").close();
@@ -232,7 +152,9 @@ sap.ui.define(
             },
 
             /**
-             * This method checks category form.
+             * This method checks category form validation.
+             *  @public
+             *  @return {void}
              */
             checkFormValid: function () {
                 var oModel = this.getModel("State"),
@@ -256,6 +178,8 @@ sap.ui.define(
 
             /**
              *  This method opens remove confirmation.
+             *  @public
+             *  @return {void}
              */
             onDeleteCategoryButtonPress: function () {
                 var oSelectItem = this.byId("CategoriesTable")
@@ -271,7 +195,7 @@ sap.ui.define(
                 MessageBox.confirm(sMessage, {
                     onClose: function (oAction) {
                         if (oAction === "OK") {
-                            this.onDeleteCategory();
+                            this._onDeleteCategory();
                         }
                     }.bind(this),
                 });
@@ -279,8 +203,10 @@ sap.ui.define(
 
             /**
              *  This method removes new Category.
+             *  @private
+             *  @return {void}
              */
-            onDeleteCategory: function () {
+            _onDeleteCategory: function () {
                 var oModel = this.getModel(),
                     // get Category Id
                     oSelectItem = this.byId("CategoriesTable")
@@ -311,6 +237,8 @@ sap.ui.define(
 
             /**
              *  This method shows delete button
+             *  @private
+             *  @return {void}
              */
             onSelectCategoryPress: function () {
                 var bIsDelete = !!this.byId(
@@ -324,6 +252,8 @@ sap.ui.define(
 
             /**
              *  This method Filter Categories.
+             *  @public
+             *  @return {void}
              */
             onFilterCategories: function () {
                 var oCategoriesTable = this.byId("CategoriesTable"),
@@ -348,6 +278,8 @@ sap.ui.define(
             /**
              * "Clear" button press event handler of the "FilterBar".
              * This method clears multiInput.
+             *  @public
+             *  @return {void}
              */
             onFilterCategoriesClear: function () {
                 this.byId("CategoriesMultiInput").setTokens([]);

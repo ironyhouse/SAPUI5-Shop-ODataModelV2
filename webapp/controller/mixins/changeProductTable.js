@@ -3,7 +3,9 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
     return {
         /**
          * "Add" button press event handler (in product popover).
-         *  This method add new products.
+         *  This method add new products from category.
+         *  @public
+         *  @return {void}
          */
         onProductDialogAddPress: function () {
             var oModel = this.getModel(),
@@ -37,8 +39,10 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
 
         /**
          * This method removes products in category.
+         * @private
+         * @return {void}
          */
-        onDeleteProduct: function () {
+        _onDeleteProduct: function () {
             var oModel = this.getModel(),
                 // get Category Id
                 oProductsTable = this.byId("ProductListTable"),

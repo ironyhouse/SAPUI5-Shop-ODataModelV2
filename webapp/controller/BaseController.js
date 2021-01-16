@@ -3,12 +3,23 @@ sap.ui.define(
     function (Controller, UIComponent) {
         "use strict";
         return Controller.extend("sap.ui.Shop.controller.BaseController", {
-            // get model
+            /**
+             *  Method to get model.
+             *  @public
+             *  @return {string} sName - model name.
+             *  @return {Object} Instance of oData model.
+             */
             getModel: function (sName) {
                 return this.getView().getModel(sName);
             },
 
-            // get i18n value
+            /**
+             *  Method for creating a message from the i18n model.
+             *  @public
+             *  @param  {string} sName - Property
+             *  @param  {string[]} aMessageWord - Array of values.
+             *  @return {string} Text from i18n
+             */
             getI18nWord: function (sName, aMessageWord = []) {
                 var oBundle = this.getModel("i18n").getResourceBundle(),
                     sMessage = oBundle.getText(sName, aMessageWord);
@@ -16,12 +27,20 @@ sap.ui.define(
                 return sMessage;
             },
 
-            // get this router
+            /**
+             *  Method for getting the route.
+             *  @public
+             *  @return {Object} - The object of the route instance
+             */
             getRouterForThis: function () {
                 return UIComponent.getRouterFor(this);
             },
 
-            // get message manager
+            /**
+             * Method for getting the message manager.
+             * @function
+             * @return {Object} - Returns message manager.
+             */
             getMessageManager: function () {
                 return sap.ui.getCore().getMessageManager();
             },

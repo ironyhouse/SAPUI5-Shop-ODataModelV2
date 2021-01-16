@@ -13,8 +13,9 @@ sap.ui.define(["./BaseController"], function (BaseController) {
 
         /**
          *  Bind context to the view.
-         *
          *  @param {sap.ui.base.Event} oEvent event object.
+         *  @private
+         *  @return {void}
          */
         _onSuppliersMatched: function (oEvent) {
             var oModel = this.getModel("State"),

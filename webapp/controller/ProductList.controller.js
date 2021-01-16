@@ -27,7 +27,6 @@ sap.ui.define(
 
             jQuery.extend(changeProductTable, {
                 formatter: formatter,
-
                 /**
                  * Controller's "init" lifecycle method.
                  */
@@ -50,8 +49,9 @@ sap.ui.define(
 
                 /**
                  *  Bind context to the view.
-                 *
-                 * @param {sap.ui.base.Event} oEvent event object.
+                 *  @private
+                 *  @param {sap.ui.base.Event} oEvent event object.
+                 *  @return {void}
                  */
                 _onObjectMatched: function (oEvent) {
                     var oModel = this.getModel("State"),
@@ -67,8 +67,9 @@ sap.ui.define(
 
                 /**
                  *  This method navigates to supplier.
-                 *
+                 *  @public
                  *  @param {sap.ui.base.Event} oEvent event object.
+                 *  @return {void}
                  */
                 onNavToSuppliers: function (oEvent) {
                     var oSelectedListItem = oEvent.getSource(),
@@ -86,6 +87,8 @@ sap.ui.define(
                 /**
                  * "Edit Product" button press event handler.
                  *  This method changes page to edit mode.
+                 *  @public
+                 *  @return {void}
                  */
                 onEditProduct: function () {
                     var oModel = this.getModel(),
@@ -103,6 +106,8 @@ sap.ui.define(
 
                 /**
                  * Save button press event handler.
+                 * @public
+                 * @return {void}
                  */
                 onSaveChangesPress: function () {
                     var oModel = this.getModel(),
@@ -123,9 +128,10 @@ sap.ui.define(
                 },
 
                 /**
-                 *  This method opens popover.
-                 *
-                 *  @param {sap.ui.base.Event} oEvent event object.
+                 * This method opens cancel popover.
+                 * @public
+                 * @param {sap.ui.base.Event} oEvent event object.
+                 * @return {void}
                  */
                 onCancelConfirmOpen: function (oEvent) {
                     var oButton = oEvent.getSource(),
@@ -150,6 +156,9 @@ sap.ui.define(
 
                 /**
                  * Cancel button press event handler.
+                 * This method cancels editing of product.
+                 * @public
+                 * @return {void}
                  */
                 onDiscardChangesPress: function () {
                     var oModel = this.getModel(),
@@ -173,8 +182,9 @@ sap.ui.define(
 
                 /**
                  * This method open error popover.
-                 *
-                 *  @param {sap.ui.base.Event} oEvent event object.
+                 * @public
+                 * @param {sap.ui.base.Event} oEvent event object.
+                 * @return {void}
                  */
                 onMessagePopoverPress: function (oEvent) {
                     var oButton = oEvent.getSource(),
@@ -199,7 +209,9 @@ sap.ui.define(
 
                 /**
                  * "Add" button press event handler (in product table).
-                 *  This method open popover.
+                 *  This method open product popover.
+                 *  @public
+                 *  @return {void}
                  */
                 onAddProductPress: function () {
                     var oView = this.getView(),
@@ -217,7 +229,8 @@ sap.ui.define(
                             oView.addDependent(oAllProductsDialog);
                             // show form
                             oAllProductsDialog.open();
-                        });
+                            this.onFilterProducts();
+                        }.bind(this));
                     } else {
                         // show form
                         oAllProductsDialog.open();
@@ -226,7 +239,9 @@ sap.ui.define(
 
                 /**
                  * "Cancel" button press event handler (in product popover).
-                 *  This method close popover.
+                 *  This method close product popover.
+                 *  @public
+                 *  @return {void}
                  */
                 onProductDialogCancelPress: function () {
                     var oAllProductsDialog = this.byId("AllProductsDialog"),
@@ -239,6 +254,8 @@ sap.ui.define(
 
                 /**
                  *  This method shows add button (in product popover).
+                 *  @public
+                 *  @return {void}
                  */
                 onSelectProductsInDialogPress: function () {
                     var bIsDelete = !!this.byId(
@@ -251,7 +268,7 @@ sap.ui.define(
                 },
 
                 /**
-                 * Row selection event handler (Product List).
+                 * Row selection event handler (Product List Table).
                  * After selection "delete button" will be enabled.
                  */
                 onSelectProductsPress: function () {
@@ -266,7 +283,9 @@ sap.ui.define(
 
                 /**
                  * "Delete" button press.
-                 *  This method opens confirmation.
+                 *  This method opens delete confirmation.
+                 *  @public
+                 *  @return {void}
                  */
                 onDeleteProductPress: function () {
                     var oSelectItem = this.byId(
@@ -293,7 +312,7 @@ sap.ui.define(
                     MessageBox.confirm(sMessage, {
                         onClose: function (oAction) {
                             if (oAction === "OK") {
-                                this.onDeleteProduct();
+                                this._onDeleteProduct();
                             }
                         }.bind(this),
                     });
@@ -302,6 +321,8 @@ sap.ui.define(
                 /**
                  * "Sort" button press.
                  *  This method open sort popover.
+                 *  @public
+                 *  @return {void}
                  */
                 onOpenSortDialog: function () {
                     var oView = this.getView(),
@@ -327,7 +348,28 @@ sap.ui.define(
                 },
 
                 /**
+                 * "Ok" button press.
+                 *  This method sorts product list.
+                 *  @public
+                 *  @return {void}
+                 */
+                onSortProductList: function (oEvent) {
+                    var oProductsTable = this.byId("ProductListTable"),
+                        oItemsBinding = oProductsTable.getBinding("items"),
+                        sParam = oEvent
+                            .getParameters()
+                            .sortItem.getProperty("key"),
+                        bSortDesc = this.byId("SortDialog").getSortDescending(),
+                        oSorter = new Sorter(sParam, bSortDesc);
+
+                    // perform sorting
+                    oItemsBinding.sort(oSorter);
+                },
+
+                /**
                  *  This method filters products (in product popover).
+                 *  @public
+                 *  @return {void}
                  */
                 onFilterProducts: function () {
                     var oTable = this.byId("AllProductsTable"),
@@ -344,19 +386,32 @@ sap.ui.define(
                         sQueryRating = this.getModel("State").getProperty(
                             "/State/nSearchRating"
                         ),
+                        sCategoryName = this.getView()
+                            .getBindingContext()
+                            .getProperty("Name"),
                         aFilter;
 
                     aFilter = new Filter({
                         filters: [
                             new Filter({
-                                path: "Name",
-                                operator: FilterOperator.Contains,
-                                value1: sQueryName,
-                                caseSensitive: false,
+                                path: "Category/Name",
+                                operator: FilterOperator.NE,
+                                value1: sCategoryName,
                             }),
                         ],
                         and: true,
                     });
+
+                    if (sQueryName) {
+                        aFilter.aFilters.push(
+                            new Filter({
+                                path: "Name",
+                                operator: FilterOperator.Contains,
+                                value1: sQueryName,
+                                caseSensitive: false,
+                            })
+                        );
+                    }
 
                     if (sQueryPriceFrom) {
                         aFilter.aFilters.push(
@@ -395,6 +450,8 @@ sap.ui.define(
 
                 /**
                  * "Clear" button press event handler of the "FilterBar".
+                 *  @public
+                 *  @return {void}
                  */
                 onFiltersClear: function () {
                     var sQueryRating = this.byId("FilterRating");
@@ -418,23 +475,6 @@ sap.ui.define(
                         );
 
                     this.onFilterProducts();
-                },
-
-                /**
-                 * "Ok" button press.
-                 *  This method sorts product list.
-                 */
-                onSortProductList: function (oEvent) {
-                    var oProductsTable = this.byId("ProductListTable"),
-                        oItemsBinding = oProductsTable.getBinding("items"),
-                        sParam = oEvent
-                            .getParameters()
-                            .sortItem.getProperty("key"),
-                        bSortDesc = this.byId("SortDialog").getSortDescending(),
-                        oSorter = new Sorter(sParam, bSortDesc);
-
-                    // perform sorting
-                    oItemsBinding.sort(oSorter);
                 },
             })
         );

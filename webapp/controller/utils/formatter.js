@@ -6,13 +6,13 @@ sap.ui.define([], function () {
 		 * Defines a value state based on the price
 		 *
 		 * @public
-		 * @param {number} iPrice the price of a post
+		 * @param {number} nPrice - The price of a post
 		 * @returns {string} sValue the state for the price
 		 */
-		priceState: function (iPrice) {
-			if (iPrice < 101) {
+		priceState: function (nPrice) {
+			if (nPrice < 101) {
 				return "Success";
-			} else if (iPrice >= 100 ) {
+			} else if (nPrice >= 100 ) {
 				return "Warning";
 			}
 		}
