@@ -4,12 +4,10 @@
     <Table id="ProductListTable" items="{Products}" mode="{= ${State>/State/isEditProduct} ? 'MultiSelect' : null }" selectionChange="onSelectProductsPress" >
         <headerToolbar>
             <OverflowToolbar design="Solid">
-
                 <Title class="sapUiSmallMarginBegin" text="{i18n>productListTitle}" />
-
                 <ToolbarSpacer />
                     <Button text="{i18n>add}" type="Transparent" id="AddProductsButton" press="onAddProductPress" visible="{State>/State/isEditProduct}" />
-                    <Button text="{i18n>delete}" id="DeleteProductsButton" enabled="{State>/State/isEnabledDeleteProductButton}" type="Transparent" press="onDeleteProductPress" visible="{State>/State/isEditProduct}" />
+                    <Button text="{i18n>delete}" id="DeleteProductsButton" enabled="{State>/State/isDeleteProductButton}" type="Transparent" press="onDeleteProductPress" visible="{State>/State/isEditProduct}" />
                     <Button id="SortProductList" icon="sap-icon://sort" type="Transparent" press="onOpenSortDialog" />
             </OverflowToolbar>
         </headerToolbar>

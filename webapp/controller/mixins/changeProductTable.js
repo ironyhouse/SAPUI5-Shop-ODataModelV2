@@ -1,0 +1,76 @@
+sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
+    "use strict";
+    return {
+        /**
+         * "Add" button press event handler (in product popover).
+         *  This method add new products.
+         */
+        onProductDialogAddPress: function () {
+            var oModel = this.getModel(),
+                oAllProductsDialog = this.byId("AllProductsDialog"),
+                oAllProductsTable = this.byId("AllProductsTable"),
+                aSelectedItems = oAllProductsTable.getSelectedItems(),
+                oProductListItems = this.byId("ProductListTable").getBinding(
+                    "items"
+                ),
+                sProductsAddMessage = this.getI18nWord("productsAdd"),
+                sCategoryName = this.getView().getBindingContext().getPath();
+
+            if (aSelectedItems !== 0) {
+                aSelectedItems.forEach(function (item) {
+                    var sSelectedItem =
+                        item.getBindingContextPath() + "/$links/Category";
+
+                    oModel.update(sSelectedItem, { uri: sCategoryName });
+
+                    oModel.remove(
+                        item.getBindingContextPath() + "/$links/Category",
+                        { groupId: "CancelChangeCategory" }
+                    );
+                });
+
+                oProductListItems.refresh(true);
+                oAllProductsDialog.destroy();
+                MessageToast.show(sProductsAddMessage);
+            }
+        },
+
+        /**
+         * This method removes products in category.
+         */
+        onDeleteProduct: function () {
+            var oModel = this.getModel(),
+                // get Category Id
+                oProductsTable = this.byId("ProductListTable"),
+                aSelectedItems = oProductsTable.getSelectedItems(),
+                oProductListItems = this.byId("ProductListTable").getBinding(
+                    "items"
+                ),
+                sCategoryName = this.getView().getBindingContext().getPath(),
+                sProductsDeleteMessage = this.getI18nWord(
+                    "productsDeleteMessage"
+                );
+
+            if (aSelectedItems !== 0) {
+                aSelectedItems.forEach(function (item) {
+                    oModel.remove(
+                        item.getBindingContextPath() + "/$links/Category"
+                    );
+
+                    oModel.update(
+                        item.getBindingContextPath() + "/$links/Category",
+                        { uri: sCategoryName },
+                        { groupId: "CancelChangeCategory" }
+                    );
+                });
+
+                oProductListItems.refresh(true);
+                MessageToast.show(sProductsDeleteMessage);
+                this.getModel("State").setProperty(
+                    "/State/isDeleteProductButton",
+                    false
+                );
+            }
+        },
+    };
+});

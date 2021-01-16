@@ -5,7 +5,7 @@
         "isShowDeleteCategoryButton": false,
         "isEditProduct": false,
         "isButtonAddProductForm": false,
-        "isEnabledDeleteProductButton": false,
+        "isDeleteProductButton": false,
         "sSearchName": "",
         "nSearchRating": false,
         "nSearchPriceTo": null,

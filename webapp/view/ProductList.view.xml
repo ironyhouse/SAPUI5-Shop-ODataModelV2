@@ -44,6 +44,7 @@
 								class="sapUiTinyMarginTopBottom" />
 							<m:Title text="{Name}" visible="{= !${State>/State/isEditProduct}}" />
 							<m:Input
+								id="CategoryNameInput"
 								width="40%"
 								visible="{State>/State/isEditProduct}"
 								value= "{
