@@ -80,10 +80,6 @@
 			"State": {
 				"type": "sap.ui.model.json.JSONModel",
 				"uri": "model/State.json"
-			},
-			"ValueHelpLayout": {
-				"type": "sap.ui.model.json.JSONModel",
-				"uri": "model/ValueHelpLayout.json"
 			}
 		},
 		"routing": {

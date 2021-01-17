@@ -1,11 +1,8 @@
 <mvc:View controllerName="sap.ui.Shop.controller.Categories" height="100%"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
-	xmlns:layout="sap.ui.layout"
 	xmlns="sap.m"
 	xmlns:f="sap.f"
-	xmlns:fb="sap.ui.comp.filterbar"
-	xmlns:vm="sap.ui.comp.variants"
 	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
 	xmlns:smartTable="sap.ui.comp.smarttable">
 	<f:DynamicPage class="sapUiNoContentPadding">
@@ -33,13 +30,9 @@
         <smartTable:SmartTable
             id="smartTable_ResponsiveTable"
             header="{i18n>categories}"
-
             enableAutoBinding="true"
             smartFilterId="smartFilterBar"
-
-
-            entitySet="Categories"
->
+            entitySet="Categories">
 				<smartTable:customToolbar>
 					<OverflowToolbar design="Transparent">
 						<ToolbarSpacer/>
@@ -48,13 +41,10 @@
 					</OverflowToolbar>
 				</smartTable:customToolbar>
 				<Table id="CategoriesTable" mode="SingleSelectLeft" selectionChange="onSelectCategoryPress">
-					<ColumnListItem type="Navigation" press=".onNavToCategory">
+					<ColumnListItem type="Navigation" press="onNavToCategory">
 					</ColumnListItem>
 				</Table>
 		</smartTable:SmartTable>
 		</f:content>
 	</f:DynamicPage>
 </mvc:View>
-
-
-

@@ -29,7 +29,7 @@
             </Column>
         </columns>
         <items>
-            <ColumnListItem type="Navigation" press=".onNavToSuppliers">
+            <ColumnListItem type="Navigation" press="onNavToSuppliers">
                 <HBox alignItems="Center" justifyContent="Start">
                     <Text text="{Name}" />
                 </HBox>

@@ -15,16 +15,39 @@ sap.ui.define(["./BaseController"], function (BaseController) {
          *  Bind context to the view.
          *  @param {sap.ui.base.Event} oEvent event object.
          *  @private
-         *  @return {void}
          */
         _onSuppliersMatched: function (oEvent) {
-            var oModel = this.getModel("State"),
-                sProductURL = oEvent.getParameter("arguments").sProductURL;
+            var sProductURL = oEvent.getParameter("arguments").sProductURL;
 
             this.getView().bindElement({
-                path: "/" + sProductURL + "/Supplier"
+                path: "/" + sProductURL + "/Supplier",
             });
-            oModel.setProperty("/State/isNavBackButton", true);
+        },
+
+        /**
+         *  This method navigates to categories.
+         *  @public
+         */
+        navToCategories: function () {
+            this.getRouterForThis().navTo("Categories");
+        },
+
+        /**
+         *  This method navigates to Products List.
+         *  @public
+         */
+        navToProducts: function () {
+            var sCategoriesURL = this.getModel("State").getProperty(
+                "/State/sCategoriesURL"
+            );
+            if (sCategoriesURL) {
+                this.getRouterForThis().navTo("ProductList", {
+                    sCategoriesURL: sCategoriesURL,
+                });
+            } else {
+                this.navToCategories();
+            }
+
         },
     });
 });

@@ -6,6 +6,7 @@
         "isEditProduct": false,
         "isButtonAddProductForm": false,
         "isDeleteProductButton": false,
+        "sCategoriesURL": "",
         "sSearchName": "",
         "nSearchRating": false,
         "nSearchPriceTo": null,

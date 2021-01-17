@@ -5,7 +5,6 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
          * "Add" button press event handler (in product popover).
          *  This method add new products from category.
          *  @public
-         *  @return {void}
          */
         onProductDialogAddPress: function () {
             var oModel = this.getModel(),
@@ -16,7 +15,7 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
                     "items"
                 ),
                 sProductsAddMessage = this.getI18nWord("productsAdd"),
-                sCategoryName = this.getView().getBindingContext().getPath();
+                sCategoryPath = this.getView().getBindingContext().getPath();
 
             if (aSelectedItems !== 0) {
                 aSelectedItems.forEach(
@@ -24,7 +23,7 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
                         var sSelectedItem =
                             item.getBindingContextPath() + "/$links/Category";
 
-                        oModel.update(sSelectedItem, { uri: sCategoryName });
+                        oModel.update(sSelectedItem, { uri: sCategoryPath });
 
                         this._addBatchRequest(
                             item.getBindingContextPath() + "/$links/Category",
@@ -42,7 +41,6 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
         /**
          * This method removes products in category.
          * @private
-         * @return {void}
          */
         _onDeleteProduct: function () {
             var oModel = this.getModel(),
@@ -85,14 +83,13 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
          * @return {void}
          */
         _addBatchRequest: function (sProductName, sOperation) {
-            var uniqueRequest = true;
-            this.aBatchRequest.forEach(function (item) {
-                if (item.path === sProductName) {
-                    uniqueRequest = false;
-                    return;
-                }
+            var uniqueRequest;
+            
+            uniqueRequest = this.aBatchRequest.some(function(item) {
+                return (item.path === sProductName);
             });
-            if (uniqueRequest) {
+
+            if (!uniqueRequest) {
                 this.aBatchRequest.push({
                     path: sProductName,
                     operation: sOperation,
@@ -103,7 +100,6 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
         /**
          * This method create unique requests.
          * @private
-         * @return {void}
          */
         _createBatchRequest: function () {
             var oModel = this.getModel(),

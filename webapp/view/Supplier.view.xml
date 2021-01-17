@@ -3,18 +3,19 @@
 	xmlns:core="sap.ui.core"
 	xmlns="sap.uxap"
 	xmlns:f="sap.f"
-	xmlns:m="sap.m"
-	xmlns:layout="sap.ui.layout"
-	xmlns:forms="sap.ui.layout.form">
+	xmlns:m="sap.m">
 	<ObjectPageLayout id="SupplierProductInfo" showTitleInHeaderContent="true" showEditHeaderButton="true" upperCaseAnchorBar="false" editHeaderButtonPress="handleEditBtnPress">
 		<headerTitle>
 			<ObjectPageDynamicHeaderTitle>
 				<!-- Title -->
 				<heading>
-					<m:FlexBox fitContainer="true" alignItems="Center">
-						<!-- Name -->
-						<m:Title text="{Name}" />
-					</m:FlexBox>
+					<m:VBox>
+                        <m:Breadcrumbs >
+                            <m:Link text="{i18n>categories}" press="navToCategories"/>
+							<m:Link text="{i18n>products}" press="navToProducts"/>
+                        </m:Breadcrumbs>
+                        <m:Title text="{Name}" />
+                    </m:VBox>
 				</heading>
 			</ObjectPageDynamicHeaderTitle>
 		</headerTitle>

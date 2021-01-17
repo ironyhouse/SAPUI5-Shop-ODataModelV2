@@ -23,33 +23,10 @@ sap.ui.define(
              * Controller's "init" lifecycle method.
              */
             onInit: function () {
-                var oView = this.getView(),
-                    oMessageManager = this.getMessageManager();
-
-                // Route
-                this.getRouterForThis()
-                    .getRoute("Categories")
-                    .attachPatternMatched(this._onObjectMatched, this);
-
                 var oCategory = new JSONModel({
                     Name: "",
                 });
                 this.getView().setModel(oCategory, "Category");
-
-                // Register the view with the message manager
-                oView.setModel(oMessageManager.getMessageModel(), "message");
-                oMessageManager.registerObject(oView, true);
-            },
-
-            /**
-             *  Bind context to the view.
-             *  @private
-             *  @return {void}
-             */
-            _onObjectMatched: function () {
-                var oModel = this.getModel("State");
-
-                oModel.setProperty("/State/isNavBackButton", false);
             },
 
             /**
@@ -75,7 +52,6 @@ sap.ui.define(
              * "Add" button press event handler (in category table).
              *  This method opens product popover.
              *  @public
-             *  @return {void}
              */
             onAddCategoryPress: function () {
                 var oView = this.getView(),
@@ -103,19 +79,11 @@ sap.ui.define(
             /**
              *  This method adds new Category.
              *  @public
-             *  @return {void}
              */
             onCreateCategoryFormPress: function () {
                 var oModel = this.getModel(),
-                    oCategoryName = this.byId("CategoryNameInput"),
-                    sCategoryName = oCategoryName.getValue(),
-                    sMessageSuccess = this.getI18nWord(
-                        "categoryCreateMessageSuccessful",
-                        sCategoryName
-                    ),
-                    sMessageError = this.getI18nWord(
-                        "categoryCreateMessageError",
-                        sCategoryName
+                    sCategoryName = this.getModel("Category").getProperty(
+                        "/Name"
                     ),
                     nCategoryID = Math.floor(Date.parse(new Date()) * 0.0001);
 
@@ -127,59 +95,57 @@ sap.ui.define(
                     },
                     {
                         success: function () {
-                            MessageToast.show(sMessageSuccess);
-                        },
+                            MessageToast.show(
+                                this.getI18nWord(
+                                    "categoryCreateMessageSuccessful",
+                                    sCategoryName
+                                )
+                            );
+                        }.bind(this),
                         error: function () {
-                            MessageBox.error(sMessageError);
-                        },
+                            MessageBox.error(
+                                this.getI18nWord(
+                                    "categoryCreateMessageError",
+                                    sCategoryName
+                                )
+                            );
+                        }.bind(this),
                     }
                 );
 
                 this.byId("CategoryCreatorDialog").close();
-                oCategoryName.setValue();
+                this.getModel("Category").setProperty("/Name", "");
                 this.getMessageManager().removeAllMessages();
             },
 
             /**
              *  This method closes category popover.
              *  @public
-             *  @return {void}
              */
             onCancelCategoryFormPress: function () {
                 this.byId("CategoryCreatorDialog").close();
-                this.byId("CategoryNameInput").setValue("");
+                this.getModel("Category").setProperty("/Name", "");
                 this.getMessageManager().removeAllMessages();
             },
 
             /**
              * This method checks category form validation.
              *  @public
-             *  @return {void}
              */
             checkFormValid: function () {
-                var oModel = this.getModel("State"),
-                    sCategoryName = !!this.byId("CategoryNameInput").getValue(),
-                    nValidationError = !!this.getMessageManager()
-                        .getMessageModel()
-                        .getData().length;
+                var sCategoryName = !!this.getModel("Category").getProperty(
+                    "/Name"
+                );
 
-                if (sCategoryName && !nValidationError) {
-                    oModel.setProperty(
-                        "/State/isShowCreateCategoryButton",
-                        true
-                    );
-                } else {
-                    oModel.setProperty(
-                        "/State/isShowCreateCategoryButton",
-                        false
-                    );
-                }
+                this.getModel("State").setProperty(
+                    "/State/isShowCreateCategoryButton",
+                    sCategoryName
+                );
             },
 
             /**
              *  This method opens remove confirmation.
              *  @public
-             *  @return {void}
              */
             onDeleteCategoryButtonPress: function () {
                 var oSelectItem = this.byId("CategoriesTable")
@@ -204,7 +170,6 @@ sap.ui.define(
             /**
              *  This method removes new Category.
              *  @private
-             *  @return {void}
              */
             _onDeleteCategory: function () {
                 var oModel = this.getModel(),
@@ -212,23 +177,25 @@ sap.ui.define(
                     oSelectItem = this.byId("CategoriesTable")
                         .getSelectedItem()
                         .getBindingContext(),
-                    sCategoryName = oSelectItem.getProperty("Name"),
-                    sMessageSuccess = this.getI18nWord(
-                        "categoryDeleteMessageSuccessful",
-                        sCategoryName
-                    ),
-                    sMessageError = this.getI18nWord(
-                        "categoryDeleteMessageError",
-                        sCategoryName
-                    );
+                    sCategoryName = oSelectItem.getProperty("Name");
 
                 oModel.remove(oSelectItem.getPath(), {
                     success: function () {
-                        MessageToast.show(sMessageSuccess);
-                    },
+                        MessageToast.show(
+                            this.getI18nWord(
+                                "categoryDeleteMessageSuccessful",
+                                sCategoryName
+                            )
+                        );
+                    }.bind(this),
                     error: function () {
-                        MessageBox.error(sMessageError);
-                    },
+                        MessageBox.error(
+                            this.getI18nWord(
+                                "categoryDeleteMessageError",
+                                sCategoryName
+                            )
+                        );
+                    }.bind(this),
                 });
 
                 this.byId("CategoriesTable").removeSelections();
@@ -238,7 +205,6 @@ sap.ui.define(
             /**
              *  This method shows delete button
              *  @private
-             *  @return {void}
              */
             onSelectCategoryPress: function () {
                 var bIsDelete = !!this.byId(
@@ -248,42 +214,6 @@ sap.ui.define(
                     "/State/isShowDeleteCategoryButton",
                     bIsDelete
                 );
-            },
-
-            /**
-             *  This method Filter Categories.
-             *  @public
-             *  @return {void}
-             */
-            onFilterCategories: function () {
-                var oCategoriesTable = this.byId("CategoriesTable"),
-                    oItemsBinding = oCategoriesTable.getBinding("items"),
-                    aQueryNames = this.byId("CategoriesMultiInput").getTokens(),
-                    aFilter = [];
-
-                aQueryNames.forEach(function (token) {
-                    aFilter.push(
-                        new Filter(
-                            "Name",
-                            FilterOperator.Contains,
-                            token.getProperty("key")
-                        )
-                    );
-                });
-
-                // execute filtering
-                oItemsBinding.filter(aFilter);
-            },
-
-            /**
-             * "Clear" button press event handler of the "FilterBar".
-             * This method clears multiInput.
-             *  @public
-             *  @return {void}
-             */
-            onFilterCategoriesClear: function () {
-                this.byId("CategoriesMultiInput").setTokens([]);
-                this.onFilterCategories();
             },
         });
     }

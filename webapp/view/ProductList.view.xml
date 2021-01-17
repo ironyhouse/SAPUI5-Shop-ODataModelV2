@@ -16,7 +16,12 @@
 			<ObjectPageDynamicHeaderTitle>
 				<!-- Title -->
 				<heading>
-					<m:Title text="{Name}" />
+					<m:VBox>
+                        <m:Breadcrumbs >
+                            <m:Link text="{i18n>categories}" press="navToCategories"/>
+                        </m:Breadcrumbs>
+                        <m:Title text="{Name}" />
+                    </m:VBox>
 				</heading>
 
 				<actions>
@@ -52,11 +57,10 @@
 									type: 'sap.ui.model.type.String',
 									constraints: {
 										minLength: 1,
-										maxLength: 255
+										maxLength: 50
 									}
 								}"
-								placeholder="{i18n>enterCategoryPlaceholder}"
-								change="checkFormValid" />
+								placeholder="{i18n>enterCategoryPlaceholder}" />
 						</m:VBox>
 					</ObjectPageSubSection>
 				</subSections>
