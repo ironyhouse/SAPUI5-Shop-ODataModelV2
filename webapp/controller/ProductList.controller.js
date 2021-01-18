@@ -1,7 +1,7 @@
 sap.ui.define(
     [
         "./BaseController",
-        "sap/ui/Shop/controller/Mixins/changeProductTable",
+        "sap/ui/Shop/controller/mixins/ChangeProductTable",
         "sap/ui/core/Fragment",
         "sap/ui/model/Filter",
         "sap/ui/model/FilterOperator",
@@ -12,7 +12,7 @@ sap.ui.define(
     ],
     function (
         BaseController,
-        changeProductTable,
+        ChangeProductTable,
         Fragment,
         Filter,
         FilterOperator,
@@ -25,7 +25,7 @@ sap.ui.define(
         return BaseController.extend(
             "sap.ui.Shop.controller.ProductList",
 
-            jQuery.extend(changeProductTable, {
+            jQuery.extend(ChangeProductTable, {
                 formatter: formatter,
                 /**
                  * Controller's "init" lifecycle method.
@@ -179,7 +179,9 @@ sap.ui.define(
                     this._createBatchRequest();
                     oModel.submitChanges({
                         groupId: "CancelChangeCategory",
-                        success: oProductListItems.refresh(true),
+                        success: function () {
+                            oProductListItems.refresh(true)
+                        }
                     });
                     this.getModel().resetChanges();
                 },

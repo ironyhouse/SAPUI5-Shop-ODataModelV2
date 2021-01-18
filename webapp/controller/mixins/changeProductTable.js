@@ -20,19 +20,49 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
             if (aSelectedItems !== 0) {
                 aSelectedItems.forEach(
                     function (item) {
-                        var sSelectedItem =
-                            item.getBindingContextPath() + "/$links/Category";
-
-                        oModel.update(sSelectedItem, { uri: sCategoryPath });
-
-                        this._addBatchRequest(
+                        oModel.read(
                             item.getBindingContextPath() + "/$links/Category",
-                            "remove"
+                            {
+                                success: function (sOldCategoryPath) {
+                                    oModel.update(
+                                        item.getBindingContextPath() +
+                                            "/$links/Category",
+                                        { uri: sCategoryPath },
+                                        {
+                                            success: function () {
+                                                oProductListItems.refresh(true);
+                                            }.bind(this),
+                                        }
+                                    );
+
+                                    this._addBatchRequest(
+                                        item.getBindingContextPath() +
+                                            "/$links/Category",
+                                        sOldCategoryPath.uri,
+                                        "update"
+                                    );
+                                }.bind(this),
+                                error: function () {
+                                    oModel.update(
+                                        item.getBindingContextPath() +
+                                            "/$links/Category",
+                                        { uri: sCategoryPath }
+                                    );
+
+                                    this._addBatchRequest(
+                                        item.getBindingContextPath() +
+                                            "/$links/Category",
+                                        null,
+                                        "remove"
+                                    );
+
+                                    oProductListItems.refresh(true);
+                                }.bind(this),
+                            }
                         );
                     }.bind(this)
                 );
 
-                oProductListItems.refresh(true);
                 oAllProductsDialog.destroy();
                 MessageToast.show(sProductsAddMessage);
             }
@@ -52,7 +82,8 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
                 ),
                 sProductsDeleteMessage = this.getI18nWord(
                     "productsDeleteMessage"
-                );
+                ),
+                sCategoryPath = this.getView().getBindingContext().getPath();
 
             if (aSelectedItems !== 0) {
                 aSelectedItems.forEach(
@@ -63,7 +94,7 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
 
                         this._addBatchRequest(
                             item.getBindingContextPath() + "/$links/Category",
-                            "update"
+                            sCategoryPath
                         );
                     }.bind(this)
                 );
@@ -82,16 +113,17 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
          * @private
          * @return {void}
          */
-        _addBatchRequest: function (sProductName, sOperation) {
+        _addBatchRequest: function (sProductPath, sCategoryPath, sOperation) {
             var uniqueRequest;
-            
-            uniqueRequest = this.aBatchRequest.some(function(item) {
-                return (item.path === sProductName);
+
+            uniqueRequest = this.aBatchRequest.some(function (item) {
+                return item.path === sProductPath;
             });
 
             if (!uniqueRequest) {
                 this.aBatchRequest.push({
-                    path: sProductName,
+                    path: sProductPath,
+                    categoryPath: sCategoryPath,
                     operation: sOperation,
                 });
             }
@@ -102,22 +134,21 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
          * @private
          */
         _createBatchRequest: function () {
-            var oModel = this.getModel(),
-                sCategoryName = this.getView().getBindingContext().getPath();
-
-            this.aBatchRequest.forEach(function (item) {
-                if (item.operation === "remove") {
-                    oModel.remove(item.path, {
-                        groupId: "CancelChangeCategory",
-                    });
-                } else {
-                    oModel.update(
-                        item.path,
-                        { uri: sCategoryName },
-                        { groupId: "CancelChangeCategory" }
-                    );
-                }
-            });
+            this.aBatchRequest.forEach(
+                function (item) {
+                    if (item.operation === "remove") {
+                        this.getModel().remove(item.path, {
+                            groupId: "CancelChangeCategory",
+                        });
+                    } else {
+                        this.getModel().update(
+                            item.path,
+                            { uri: item.categoryPath },
+                            { groupId: "CancelChangeCategory" }
+                        );
+                    }
+                }.bind(this)
+            );
         },
     };
 });
