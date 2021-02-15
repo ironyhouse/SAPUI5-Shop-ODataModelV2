@@ -1,7 +1,9 @@
-<mvc:View
+<mvc:View controllerName="sap.ui.Shop.controller.App"
  	xmlns:f="sap.f"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
-	displayBlock="true">
+	displayBlock="true"
+	xmlns:wt="sap.ui.Shop.control">
 		<App id="app" />
+		<wt:PersonalAssistant change=".onRatingChange"/>
 </mvc:View>

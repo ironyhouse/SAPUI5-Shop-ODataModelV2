@@ -1,0 +1,119 @@
+:root {
+    --boxShadow: 0 0 0 0.0625rem rgb(0 0 0 / 42%), 0 1.25rem 5rem 0 rgb(0 0 0 / 30%) ;
+  }
+
+.hide {
+    display: none !important;
+}
+
+.botWrapper {
+    position: fixed;
+    right: 2vw;
+    bottom: 1vh;
+
+    border-radius: 50%;
+}
+.botWrapper--title {
+    position: absolute;
+    top: -70px;
+    right: 20px;
+
+    background: white;
+    border-radius: .25rem;
+
+    box-shadow: var(--boxShadow);
+}
+
+.closeButton {
+    position: fixed;
+    right: 2vw;
+    bottom: 13vh;
+
+    max-width: 20px !important;
+    min-width: 20px !important;
+    max-height: 20px !important;
+    height: 20px !important;
+    width: 20px !important;
+}
+.closeButton span, .closeButton button {
+    max-width: 20px !important;
+    min-width: 20px !important;
+    max-height: 20px !important;
+    height: 20px !important;
+    width: 20px !important;
+    line-height: 20px !important;
+}
+
+.botWrapper--avatar {
+    padding: 0;
+    margin: 0;
+}
+
+.botWrapper--avatar button, .botWrapper--avatar span, .botWrapper--avatar img  {
+    max-width: 100px !important;
+    max-height: 100px !important;
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50%;
+
+
+    padding: 0;
+    margin: 0;
+
+    animation: vibration 1s linear 1s infinite;
+    box-shadow: var(--boxShadow);
+}
+
+
+.botWrapper--title::after {
+    position: absolute;
+    content: "";
+    display: block;
+    top: 100%;
+    right: 20px;
+    height: 0;
+    width: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    opacity: 0.6;
+    border: 10px solid;
+    border-left-color: transparent !important;
+    border-right-color: transparent !important;
+    border-bottom-color: transparent !important;
+}
+
+@keyframes vibration {
+    0% {
+        transform: rotate(0deg);
+    }
+    5% {
+        transform: rotate(10deg);
+    }
+    10% {
+        transform: rotate(0deg);
+    }
+    15% {
+        transform: rotate(-10deg);
+    }
+    20% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(0deg);
+    }
+    30% {
+        transform: rotate(10deg);
+    }
+    35% {
+        transform: rotate(0deg);
+    }
+    40% {
+        transform: rotate(-10deg);
+    }
+    45% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}

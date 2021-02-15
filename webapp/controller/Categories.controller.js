@@ -2,8 +2,6 @@ sap.ui.define(
     [
         "./BaseController",
         "sap/ui/model/json/JSONModel",
-        "sap/ui/model/Filter",
-        "sap/ui/model/FilterOperator",
         "sap/ui/core/Fragment",
         "sap/m/MessageToast",
         "sap/m/MessageBox",
@@ -11,8 +9,6 @@ sap.ui.define(
     function (
         BaseController,
         JSONModel,
-        Filter,
-        FilterOperator,
         Fragment,
         MessageToast,
         MessageBox

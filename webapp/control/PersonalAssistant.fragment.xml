@@ -1,0 +1,40 @@
+<core:FragmentDefinition xmlns="sap.m"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Dialog
+        title="{i18n>questionFormTitle}"
+        id="questionForm">
+        <f:SimpleForm
+            maxContainerCols="1"
+            layout="ResponsiveGridLayout"
+            labelSpanL="12"
+            labelSpanM="12"
+            emptySpanL="0"
+            emptySpanM="0"
+            columnsL="1"
+            columnsM="1">
+            <f:content>
+                <!-- Name -->
+                <Label text="{i18n>question}"/>
+                <Input
+                    id="questionText"
+                    value="{Question>/Question/sQuestion}"
+                    required="true"
+                    placeholder="{i18n>enterCategoryPlaceholder}"
+                    change="checkQuestionFormValid" />
+            </f:content>
+        </f:SimpleForm>
+        <!-- Buttons -->
+        <buttons>
+            <Button
+                id="CreateCategoryButton"
+                type="Emphasized"
+                text="{i18n>send}"
+                enabled="{Question>/Question/bSendButton}"
+                press="onSendQuestionPress"/>
+            <Button
+                text="{i18n>cancel}"
+                press="onCancelQuestionFormPress" />
+        </buttons>
+    </Dialog>
+</core:FragmentDefinition>

@@ -80,7 +80,18 @@
 			"State": {
 				"type": "sap.ui.model.json.JSONModel",
 				"uri": "model/State.json"
+			},
+			"Question": {
+				"type": "sap.ui.model.json.JSONModel",
+				"uri": "control/Question.json"
 			}
+		},
+		"resources": {
+			"css": [
+				{
+					"uri": "control/css/style.css"
+				}
+			]
 		},
 		"routing": {
 			"config": {

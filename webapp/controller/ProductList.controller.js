@@ -226,7 +226,7 @@ sap.ui.define(
                         Fragment.load({
                             id: oView.getId(),
                             name:
-                                "sap.ui.Shop.view.fragments.ProductList.ProductListAddProduct",
+                                "sap.ui.Shop.view.fragment.ProductList.ProductListAddProduct",
                             controller: this,
                         }).then(
                             function (oAllProductsDialog) {
