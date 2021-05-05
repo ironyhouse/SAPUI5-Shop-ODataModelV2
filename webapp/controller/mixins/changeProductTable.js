@@ -17,7 +17,7 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
                 sProductsAddMessage = this.getI18nWord("productsAdd"),
                 sCategoryPath = this.getView().getBindingContext().getPath();
 
-            if (aSelectedItems !== 0) {
+            // if (aSelectedItems !== 0) {
                 aSelectedItems.forEach(
                     function (item) {
                         oModel.read(
@@ -65,7 +65,7 @@ sap.ui.define(["sap/m/MessageToast"], function (MessageToast) {
 
                 oAllProductsDialog.destroy();
                 MessageToast.show(sProductsAddMessage);
-            }
+            // }
         },
 
         /**

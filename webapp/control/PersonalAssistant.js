@@ -2,9 +2,8 @@ sap.ui.define([
 	"sap/ui/core/Control",
 	"sap/m/Label",
 	"sap/m/Button",
-    "sap/m/Image",
 	"sap/ui/core/Fragment"
-], function (Control, Label, Button, Image, Fragment) {
+], function (Control, Label, Button, Fragment) {
 	"use strict";
 	return Control.extend("sap.ui.Shop.control.PersonalAssistant", {
         metadata : {
@@ -16,13 +15,6 @@ sap.ui.define([
 				_button : {type : "sap.m.Button", multiple: false, visibility : "hidden"},
 				_buttonClose : {type : "sap.m.Button", multiple: false, visibility : "hidden"}
 			},
-			events : {
-				change : {
-					parameters : {
-						value : {type : "int"}
-					}
-				}
-			}
 		},
 		init : function () {
 			// text
